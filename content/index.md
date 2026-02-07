@@ -1,6 +1,5 @@
 ---
-title: Welcome to Quartz
-tags: happy
+title: 欢迎你，很高兴你来～
+tags:
 ---
-
-很高兴认识你。
+还没想好说什么。
