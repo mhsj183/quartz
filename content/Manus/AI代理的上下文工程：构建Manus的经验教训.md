@@ -1,10 +1,8 @@
 ---
 源地址: https://manus.im/zh-cn/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus
 发布日期: 25.07.18
-tags:
-  - Manus
-  - Blog
 ---
+#Manus #Blog
 # KV 缓存命中率
 KV-cache 命中率是生存阶段 Agent 最重要的单一指标。直接影响延迟和成本。
 随着每一步的推进，上下文不断增长，而输出（结构化函数调用）通常保持相对简短。这使得 Agent 相比于 Chatbot 的==输入/输出比例高度倾斜==。例如平均输入和输出的 token 比例是 100:1。

@@ -1,10 +1,8 @@
 ---
 源地址: https://mp.weixin.qq.com/s/bS1uAqBlAC4rOURqfWXPvQ
 发布日期: 2026.01.28
-tags:
-  - Manus
-  - 观察
 ---
+#Manus #观察
 **各个社交平台的差异化：**
 - X、LinkedIn、YouTube 以及大量的 SEO 导向的网页，混杂了真实使用体验、个人品牌表达和商业推广。更多反映的是：
 	- 一个工具希望被如何理解
