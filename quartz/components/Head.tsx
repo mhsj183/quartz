@@ -48,10 +48,23 @@ export default (() => {
             <link
               rel="stylesheet"
               href="https://fonts.googleapis.com/css2?family=Caveat:wght@300;400;500;600&display=swap"
+              data-persist="font-caveat"
             />
             {cfg.theme.typography.title && (
               <link rel="stylesheet" href={googleFontSubsetHref(cfg.theme, cfg.pageTitle)} />
             )}
+          </>
+        )}
+        {/* 手写体 Caveat：在未启用 cdnCaching 时也加载，保证日期/阅读时间字体正确 */}
+        {!cfg.theme.cdnCaching && cfg.theme.fontOrigin === "googleFonts" && (
+          <>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" />
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Caveat:wght@300;400;500;600&display=swap"
+              data-persist="font-caveat"
+            />
           </>
         )}
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
