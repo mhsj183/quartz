@@ -19,6 +19,19 @@ details.toc {
     padding: 0;
   }
 
+  & ul > li {
+    margin-bottom: 0.5rem;
+  }
+
+  & ul > li:last-child {
+    margin-bottom: 0;
+  }
+
+  & ul > li > a {
+    display: block;
+    line-height: 1.35;
+  }
+
   @for $i from 1 through 6 {
     & .depth-#{$i} {
       padding-left: calc(1rem * #{$i});

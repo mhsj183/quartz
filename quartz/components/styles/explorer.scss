@@ -105,9 +105,12 @@ button.desktop-explorer {
   align-items: center;
 
   & h2 {
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    font-weight: $semiBoldWeight;
+    letter-spacing: 0.01em;
     display: inline-block;
     margin: 0;
+    line-height: 1.4;
   }
 }
 
@@ -115,7 +118,7 @@ button.desktop-explorer {
   list-style: none;
   overflow: hidden;
   overflow-y: auto;
-  margin-top: 0.5rem;
+  margin-top: 0.75rem;
 
   & ul {
     list-style: none;
@@ -126,7 +129,19 @@ button.desktop-explorer {
       overscroll-behavior: contain;
     }
 
+    & li {
+      margin-bottom: 0.35rem;
+    }
+
+    & li:last-child {
+      margin-bottom: 0;
+    }
+
     & li > a {
+      display: block;
+      font-size: 0.9375rem;
+      font-weight: $normalWeight;
+      line-height: 1.48;
       color: var(--dark);
       opacity: 0.75;
       pointer-events: all;
@@ -155,6 +170,7 @@ button.desktop-explorer {
   .folder-outer > ul {
     overflow: hidden;
     margin-left: 6px;
+    margin-top: 0.25rem;
     padding-left: 0.8rem;
     border-left: 1px solid var(--lightgray);
   }
@@ -165,14 +181,15 @@ button.desktop-explorer {
   display: flex;
   align-items: center;
   user-select: none;
+  margin-bottom: 0.125rem;
 
   & div > a {
     color: var(--secondary);
     font-family: var(--headerFont);
     font-size: 0.95rem;
-    font-weight: $semiBoldWeight;
-    line-height: 1.5rem;
-    display: inline-block;
+    font-weight: 600;
+    line-height: 1.45;
+    display: block;
   }
 
   & div > a:hover {
@@ -193,11 +210,11 @@ button.desktop-explorer {
 
     & span {
       font-size: 0.95rem;
+      font-weight: 600;
       display: inline-block;
       color: var(--secondary);
-      font-weight: $semiBoldWeight;
       margin: 0;
-      line-height: 1.5rem;
+      line-height: 1.5;
       pointer-events: none;
     }
   }

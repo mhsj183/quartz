@@ -1,13 +1,31 @@
 @use "../../styles/variables.scss" as *;
 
+// 列表页标题（与侧边栏文件夹标题风格一致）
+.center:has(.page-listing) .page-header .popover-hint h1 {
+  font-size: 1.5rem;
+  font-weight: $semiBoldWeight;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-listing {
+  & > p {
+    font-size: 0.95rem;
+    font-weight: $normalWeight;
+    line-height: 1.45;
+    margin: 0.25rem 0 1rem 0;
+    color: var(--darkgray);
+  }
+}
+
 ul.section-ul {
   list-style: none;
-  margin-top: 2em;
+  margin-top: 1rem;
   padding-left: 0;
 }
 
 li.section-li {
-  margin-bottom: 1em;
+  margin-bottom: 0.35rem;
 
   & > .section {
     display: grid;
@@ -21,11 +39,23 @@ li.section-li {
 
     & > .desc > h3 > a {
       background-color: transparent;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.5;
     }
 
     & .meta {
       margin: 0 1em 0 0;
-      opacity: 0.6;
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.5;
+      opacity: 0.7;
+    }
+
+    & > .tags {
+      font-size: 0.875rem;
+      font-weight: 500;
+      line-height: 1.45;
     }
   }
 }

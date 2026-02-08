@@ -4,7 +4,7 @@
 发布日期: 2026-01-27
 tags:
   - Manus
-  - Blog
+  - 产品
 ---
 ### 什么是 Agent Skills
 [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview)，一个旨在为 Agent 提供模块化、可复用能力的开放标准。==它将专业知识、工作流程和“最佳实践”打包成可重用的、基于文件系统的资源==，可以将其想象成“为新员工准备的入职指南”。Skills 可以被 Agent 按需发现和加载，从而将一个通用代理变成能够胜任特定任务的专家。

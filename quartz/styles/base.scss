@@ -113,6 +113,7 @@ a {
       padding: 0;
     }
     &.tag-link {
+      background-color: color-mix(in srgb, var(--secondary) 10%, transparent);
       &::before {
         content: "#";
       }

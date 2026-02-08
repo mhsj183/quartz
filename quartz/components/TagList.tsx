@@ -47,7 +47,7 @@ TagList.css = `
 
 a.internal.tag-link {
   border-radius: 8px;
-  background-color: var(--highlight);
+  background-color: color-mix(in srgb, var(--secondary) 10%, transparent);
   padding: 0.2rem 0.4rem;
   margin: 0 0.1rem;
 }
