@@ -1,14 +1,17 @@
 .content-meta {
   margin-top: 0;
+  color: var(--gray);
+  font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
+  font-weight: 300;
+  font-size: 1.18em;
+  letter-spacing: 0.02em;
+}
+
+/* 列表等处的日期：与内容元日期同款字体，仅作用于日期部分 */
+.date-display {
+  font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
+  font-weight: 300;
+  font-size: 1.18em;
+  letter-spacing: 0.02em;
   color: var(--darkgray);
-
-  &[show-comma="true"] {
-    > *:not(:last-child) {
-      margin-right: 8px;
-
-      &::after {
-        content: ",";
-      }
-    }
-  }
 }

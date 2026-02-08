@@ -121,7 +121,18 @@ function clearActivePopover() {
 }
 
 document.addEventListener("nav", () => {
-  const links = [...document.querySelectorAll("a.internal")] as HTMLAnchorElement[]
+  // 正文内部链接 + 左侧目录 TOC 链接（同页锚点），统一绑定预览浮窗
+  const internalLinks = document.querySelectorAll("a.internal")
+  const tocLinks = document.querySelectorAll('.toc a[href^="#"]')
+  const seen = new Set<HTMLAnchorElement>()
+  const links: HTMLAnchorElement[] = []
+  for (const el of [...internalLinks, ...tocLinks]) {
+    const link = el as HTMLAnchorElement
+    if (!seen.has(link)) {
+      seen.add(link)
+      links.push(link)
+    }
+  }
   for (const link of links) {
     link.addEventListener("mouseenter", mouseEnterHandler)
     link.addEventListener("mouseleave", clearActivePopover)

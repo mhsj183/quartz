@@ -118,7 +118,9 @@ export default ((opts?: Partial<TagContentOptions>) => {
         <div class="popover-hint">
           <article class={classes}>{content}</article>
           <div class="page-listing">
-            <p>{i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })}</p>
+            <p class="tag-notes-count">
+              <span class="date-display">{pages.length} notes</span>
+            </p>
             <div>
               <PageList {...listProps} sort={options?.sort} />
             </div>

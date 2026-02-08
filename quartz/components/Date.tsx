@@ -26,6 +26,18 @@ export function formatDate(d: Date, locale: ValidLocale = "en-US"): string {
   })
 }
 
-export function Date({ date, locale }: Props) {
-  return <time datetime={date.toISOString()}>{formatDate(date, locale)}</time>
+/** 英文格式日期：mm.dd.yyyy，与 ContentMeta 等统一 */
+export function formatDateMMDDYYYY(d: Date): string {
+  const mm = String(d.getMonth() + 1).padStart(2, "0")
+  const dd = String(d.getDate()).padStart(2, "0")
+  const yyyy = d.getFullYear()
+  return `${mm}.${dd}.${yyyy}`
+}
+
+export function Date({ date, locale: _locale }: Props) {
+  return (
+    <time class="date-display" datetime={date.toISOString()}>
+      {formatDateMMDDYYYY(date)}
+    </time>
+  )
 }

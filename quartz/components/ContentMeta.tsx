@@ -1,26 +1,21 @@
-import { Date, getDate } from "./Date"
+import { getDate, formatDateMMDDYYYY } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import readingTime from "reading-time"
 import { classNames } from "../util/lang"
-import { i18n } from "../i18n"
 import { JSX } from "preact"
 import style from "./styles/contentMeta.scss"
 
 interface ContentMetaOptions {
-  /**
-   * Whether to display reading time
-   */
   showReadingTime: boolean
   showComma: boolean
 }
 
 const defaultOptions: ContentMetaOptions = {
   showReadingTime: true,
-  showComma: true,
+  showComma: false, // 使用竖线分隔，不用逗号
 }
 
 export default ((opts?: Partial<ContentMetaOptions>) => {
-  // Merge options with defaults
   const options: ContentMetaOptions = { ...defaultOptions, ...opts }
 
   function ContentMetadata({ cfg, fileData, displayClass }: QuartzComponentProps) {
@@ -28,24 +23,23 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
     if (text) {
       const segments: (string | JSX.Element)[] = []
+      const date = fileData.dates ? getDate(cfg, fileData) : undefined
 
-      if (fileData.dates) {
-        segments.push(<Date date={getDate(cfg, fileData)!} locale={cfg.locale} />)
+      if (date) {
+        segments.push(
+          <time datetime={date.toISOString()}>{formatDateMMDDYYYY(date)}</time>,
+        )
       }
 
-      // Display reading time if enabled
       if (options.showReadingTime) {
-        const { minutes, words: _words } = readingTime(text)
-        const displayedTime = i18n(cfg.locale).components.contentMeta.readingTime({
-          minutes: Math.ceil(minutes),
-        })
+        const { minutes } = readingTime(text)
+        const displayedTime = `${Math.ceil(minutes)} min read`
+        if (segments.length > 0) segments.push(", ")
         segments.push(<span>{displayedTime}</span>)
       }
 
       return (
-        <p show-comma={options.showComma} class={classNames(displayClass, "content-meta")}>
-          {segments}
-        </p>
+        <p class={classNames(displayClass, "content-meta")}>{segments}</p>
       )
     } else {
       return null

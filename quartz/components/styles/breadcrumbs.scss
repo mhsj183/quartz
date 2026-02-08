@@ -19,4 +19,21 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+
+  // 祖先目录：不高亮，使用灰色
+  a {
+    color: var(--gray);
+    font-weight: var(--normalWeight, 400);
+    &:hover {
+      color: var(--darkgray);
+    }
+  }
+
+  // 当前路径：高亮显示
+  &.breadcrumb-current a {
+    color: var(--tertiary);
+    font-weight: var(--semiBoldWeight, 600);
+    pointer-events: none; // 当前页无需点击
+    cursor: default;
+  }
 }

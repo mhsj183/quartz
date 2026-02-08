@@ -1,25 +1,51 @@
-let isReaderMode = false
+const STORAGE_KEY = "quartz-graph-visible"
 
-const emitReaderModeChangeEvent = (mode: "on" | "off") => {
-  const event: CustomEventMap["readermodechange"] = new CustomEvent("readermodechange", {
-    detail: { mode },
-  })
-  document.dispatchEvent(event)
+function getGraphVisible(): boolean {
+  try {
+    const v = localStorage.getItem(STORAGE_KEY)
+    return v === null ? true : v === "true"
+  } catch {
+    return true
+  }
+}
+
+function setGraphVisible(visible: boolean) {
+  try {
+    localStorage.setItem(STORAGE_KEY, String(visible))
+  } catch {
+    /* ignore */
+  }
+}
+
+function applyGraphVisibility(visible: boolean) {
+  const graph = document.getElementById("graph-section")
+  const buttons = document.getElementsByClassName("graph-toggle")
+  if (graph) {
+    graph.style.display = visible ? "" : "none"
+  }
+  for (const btn of buttons) {
+    if (visible) {
+      btn.classList.remove("graph-hidden")
+      btn.setAttribute("aria-label", "收起关系图谱")
+    } else {
+      btn.classList.add("graph-hidden")
+      btn.setAttribute("aria-label", "展开关系图谱")
+    }
+  }
 }
 
 document.addEventListener("nav", () => {
-  const switchReaderMode = () => {
-    isReaderMode = !isReaderMode
-    const newMode = isReaderMode ? "on" : "off"
-    document.documentElement.setAttribute("reader-mode", newMode)
-    emitReaderModeChangeEvent(newMode)
+  const visible = getGraphVisible()
+  applyGraphVisibility(visible)
+
+  const toggleGraph = () => {
+    const nextVisible = !getGraphVisible()
+    setGraphVisible(nextVisible)
+    applyGraphVisibility(nextVisible)
   }
 
-  for (const readerModeButton of document.getElementsByClassName("readermode")) {
-    readerModeButton.addEventListener("click", switchReaderMode)
-    window.addCleanup(() => readerModeButton.removeEventListener("click", switchReaderMode))
+  for (const btn of document.getElementsByClassName("graph-toggle")) {
+    btn.addEventListener("click", toggleGraph)
+    window.addCleanup(() => btn.removeEventListener("click", toggleGraph))
   }
-
-  // Set initial state
-  document.documentElement.setAttribute("reader-mode", isReaderMode ? "on" : "off")
 })

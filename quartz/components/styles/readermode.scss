@@ -1,4 +1,4 @@
-.readermode {
+.readermode.graph-toggle {
   cursor: pointer;
   padding: 0;
   position: relative;
@@ -15,20 +15,34 @@
     width: 20px;
     height: 20px;
     top: calc(50% - 10px);
-    fill: var(--darkgray);
-    stroke: var(--darkgray);
-    transition: opacity 0.1s ease;
+    left: 0;
+    fill: var(--secondary);
+    stroke: var(--secondary);
+    transition: opacity 0.15s ease, fill 0.2s ease, stroke 0.2s ease;
   }
-}
 
-:root[reader-mode="on"] {
-  & .sidebar.left,
-  & .sidebar.right {
+  /* 默认：展开高亮，显示打开的书（绿色高亮） */
+  & .icon-open {
+    opacity: 1;
+  }
+  & .icon-closed {
     opacity: 0;
-    transition: opacity 0.2s ease;
+  }
 
-    &:hover {
-      opacity: 1;
+  /* 隐藏后：图标样式不变，只把线条改为灰色、不再高亮 */
+  &.graph-hidden {
+    & svg {
+      fill: var(--darkgray);
+      stroke: var(--darkgray);
     }
+    &:hover svg {
+      fill: var(--darkgray);
+      stroke: var(--darkgray);
+    }
+  }
+
+  &:hover svg {
+    fill: var(--tertiary);
+    stroke: var(--tertiary);
   }
 }

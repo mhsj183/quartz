@@ -16,6 +16,20 @@
     margin: 0.25rem 0 1rem 0;
     color: var(--darkgray);
   }
+
+  /* 文件夹/标签下笔记数量：与日期、阅读时间同款手写体、英文格式 "X notes" */
+  & > p.folder-notes-count,
+  & > p.tag-notes-count {
+    margin: 0.25rem 0 1rem 0;
+
+    .date-display {
+      font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
+      font-weight: 300;
+      font-size: 1.28em;
+      letter-spacing: 0.02em;
+      color: var(--darkgray);
+    }
+  }
 }
 
 ul.section-ul {
