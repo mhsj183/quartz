@@ -1,4 +1,5 @@
 ---
+可发布: true
 源地址: https://manus.im/zh-cn/blog/manus-wide-research-solve-context-problem
 发布日期: 2025-10-29
 tags:
