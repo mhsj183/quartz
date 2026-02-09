@@ -63,6 +63,12 @@ ul.toc-content.overflow {
     transition:
       0.5s ease opacity,
       0.3s ease color;
+    /* 目录链接不使用正文 internal 的黄色高亮背景 */
+    &.internal {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
     &.in-view {
       opacity: 0.75;
     }

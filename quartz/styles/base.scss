@@ -168,6 +168,14 @@ a {
       font-size: 2rem;
     }
 
+    // 正文段落间距：明显大于行高（1.6rem），区分段落与段内行距（仅 article 直接子段落）
+    & > p {
+      margin-bottom: 0;
+    }
+    & > p + p {
+      margin-top: 1.75rem;
+    }
+
     & li:has(> input[type="checkbox"]) {
       list-style-type: none;
       padding-left: 0;

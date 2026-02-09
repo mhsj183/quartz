@@ -1,3 +1,9 @@
 @use "./base.scss";
 
-// put your custom CSS here!
+// 正文段落间距：明显大于行高，区分段落与段内行距
+#quartz-root.page .center article.popover-hint > p {
+  margin-bottom: 0 !important;
+}
+#quartz-root.page .center article.popover-hint > p + p {
+  margin-top: 1.75rem !important;
+}

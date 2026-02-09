@@ -1,7 +1,12 @@
 footer {
   text-align: left;
   margin-bottom: 4rem;
-  opacity: 0.7;
+
+  & > p,
+  & > ul > li > a,
+  & > ul > li .wechat-trigger {
+    opacity: 0.7;
+  }
 
   & ul {
     list-style: none;
@@ -11,5 +16,49 @@ footer {
     flex-direction: row;
     gap: 1rem;
     margin-top: -1rem;
+  }
+
+  .wechat-link-wrapper {
+    position: relative;
+
+    .wechat-trigger {
+      cursor: default;
+    }
+
+    .wechat-popover {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-0.5rem);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.75rem;
+      background-color: var(--light);
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      min-width: 200px;
+      pointer-events: none;
+    }
+
+    .wechat-popover-img {
+      display: block;
+      max-width: 200px;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .wechat-popover-hint {
+      margin: 0.5rem 0 0;
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-align: center;
+    }
+
+    &:hover .wechat-popover {
+      display: flex;
+    }
   }
 }
