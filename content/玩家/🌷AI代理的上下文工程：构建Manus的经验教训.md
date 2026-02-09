@@ -5,6 +5,7 @@
 tags:
   - Manus
   - 产品
+  - Context
 ---
 ### KV 缓存命中率
 KV-cache 命中率是生存阶段 Agent 最重要的单一指标。直接影响延迟和成本。
