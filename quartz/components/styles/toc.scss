@@ -4,8 +4,9 @@
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  min-height: 1.4rem;
+  min-height: 0; /* flex 子项可收缩，内部滚动才能正确计算高度 */
   flex: 0 0.5 auto;
+  margin-bottom: 20px; /* 目录大纲区域离浏览器底部保留 20px */
   &:has(button.toc-header.collapsed) {
     flex: 0 1 1.4rem;
   }
@@ -42,10 +43,12 @@ ul.toc-content.overflow {
   list-style: none;
   position: relative;
   margin: 0.5rem 0;
-  padding: 0;
-  max-height: calc(100% - 2rem);
+  padding: 0 0 300px 0; /* 底部留白，最后一项可完整滚入可见区域 */
+  max-height: calc(100% - 2rem - 300px); /* 预留 300px 给底部间距与留白 */
   overscroll-behavior: contain;
   list-style: none;
+  flex: 1 1 auto;
+  min-height: 0;
 
   & > li {
     margin-bottom: 0.5rem;

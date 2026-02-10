@@ -54,7 +54,7 @@ export default {
       searchBarPlaceholder: "搜索些什么",
     },
     tableOfContents: {
-      title: "目录",
+      title: "大纲",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes}分钟阅读`,
