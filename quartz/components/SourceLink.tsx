@@ -49,7 +49,7 @@ const SourceLink: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       </a>
       {publishedDate && (
         <span class="source-link__published">
-          Originally published on {formatDateMMDDCommaYYYY(publishedDate)}
+          First published on {formatDateMMDDCommaYYYY(publishedDate)}
         </span>
       )}
     </div>
