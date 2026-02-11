@@ -56,6 +56,7 @@ export default {
     },
     tableOfContents: {
       title: "فهرس المحتويات",
+      noToc: "لا يوجد فهرس",
     },
     contentMeta: {
       readingTime: ({ minutes }) =>

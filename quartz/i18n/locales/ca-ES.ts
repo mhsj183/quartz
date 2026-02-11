@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Taula de Continguts",
+      noToc: "Sense taula de continguts",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `Es llegeix en ${minutes} min`,

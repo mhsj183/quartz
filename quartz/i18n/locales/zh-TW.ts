@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "目錄",
+      noToc: "暫無目錄",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `閱讀時間約 ${minutes} 分鐘`,

@@ -28,6 +28,16 @@
     width: 30rem;
     max-height: 20rem;
     padding: 0 1rem 1rem 1rem;
+
+    /* 探索目录笔记预览浮窗中不显示面包屑 */
+    .breadcrumb-container {
+      display: none;
+    }
+
+    /* 浮窗中不显示目录切换按钮 */
+    .toc-toggle {
+      display: none;
+    }
     font-weight: initial;
     font-style: initial;
     line-height: normal;

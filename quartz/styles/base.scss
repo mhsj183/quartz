@@ -29,7 +29,8 @@ body {
   border-radius: 5px;
 }
 ::selection {
-  background: color-mix(in srgb, var(--tertiary) 60%, rgba(255, 255, 255, 0));
+  /* 与正文高亮程度一致：更浅的绿色，参考 textHighlight 的淡雅 */
+  background: color-mix(in srgb, var(--tertiary) 32%, rgba(255, 255, 255, 0));
   color: var(--darkgray);
 }
 

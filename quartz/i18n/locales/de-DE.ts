@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Inhaltsverzeichnis",
+      noToc: "Kein Inhaltsverzeichnis",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} Min. Lesezeit`,

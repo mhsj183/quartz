@@ -58,6 +58,7 @@ export interface Translation {
     }
     tableOfContents: {
       title: string
+      noToc: string
     }
     contentMeta: {
       readingTime: (variables: { minutes: number }) => string

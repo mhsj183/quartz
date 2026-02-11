@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "大纲",
+      noToc: "暂无目录",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes}分钟阅读`,

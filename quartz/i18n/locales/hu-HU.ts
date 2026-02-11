@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Tartalomjegyzék",
+      noToc: "Nincs tartalomjegyzék",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} perces olvasás`,

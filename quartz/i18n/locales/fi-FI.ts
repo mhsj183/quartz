@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Sisällysluettelo",
+      noToc: "Ei sisällysluetteloa",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} min lukuaika`,

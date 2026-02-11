@@ -56,6 +56,7 @@ export default {
     },
     tableOfContents: {
       title: "فهرست",
+      noToc: "بدون فهرست",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `زمان تقریبی مطالعه: ${minutes} دقیقه`,

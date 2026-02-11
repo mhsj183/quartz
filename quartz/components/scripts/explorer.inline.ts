@@ -275,6 +275,8 @@ async function setupExplorer(currentSlug: FullSlug) {
       icon.addEventListener("click", toggleFolder)
       window.addCleanup(() => icon.removeEventListener("click", toggleFolder))
     }
+
+    // 探索区链接的预览由 popover.inline.ts 统一处理（悬停 1.5s 显示），此处不再绑定 2 秒轻量预览，避免出现两个预览窗口
   }
 }
 

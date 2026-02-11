@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "İçindekiler",
+      noToc: "İçindekiler yok",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} dakika okuma süresi`,

@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "สารบัญ",
+      noToc: "ไม่มีสารบัญ",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `อ่านราว ${minutes} นาที`,

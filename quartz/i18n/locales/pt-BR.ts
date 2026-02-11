@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Sumário",
+      noToc: "Sem sumário",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `Leitura de ${minutes} min`,

@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "目次",
+      noToc: "目次なし",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} min read`,

@@ -87,7 +87,23 @@ async function _navigate(url: URL, isBack: boolean = false) {
 
   const html = p.parseFromString(contents, "text/html")
   normalizeRelativeURLs(html, url)
-
+  const normalizeCoverBackground = (root: Document, baseUrl: URL) => {
+    const cover = root.body.querySelector(".site-cover") as HTMLElement | null
+    if (!cover) return
+    const style = cover.getAttribute("style") ?? ""
+    const match = style.match(/background-image:\s*url\((['"]?)(.*?)\1\)/)
+    if (!match) return
+    const rawUrl = match[2]
+    if (!rawUrl || rawUrl.startsWith("data:")) return
+    let resolved = rawUrl
+    if (!rawUrl.startsWith("/") && !rawUrl.startsWith("http://") && !rawUrl.startsWith("https://")) {
+      resolved = new URL(rawUrl, baseUrl).pathname
+    }
+    if (resolved === rawUrl) return
+    const nextStyle = style.replace(match[0], `background-image: url("${resolved}")`)
+    cover.setAttribute("style", nextStyle)
+  }
+  normalizeCoverBackground(html, url)
   let title = html.querySelector("title")?.textContent
   if (title) {
     document.title = title

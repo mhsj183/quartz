@@ -581,7 +581,10 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     cleanupLocalGraphs()
     const localGraphContainers = document.getElementsByClassName("graph-container")
     for (const container of localGraphContainers) {
-      localGraphCleanups.push(await renderGraph(container as HTMLElement, slug))
+      const el = container as HTMLElement
+      // 弹窗内的容器初始为 display:none，宽高为 0，跳过渲染；弹窗打开后会触发 localgraphshow 再渲染
+      if (el.offsetWidth === 0 || el.offsetHeight === 0) continue
+      localGraphCleanups.push(await renderGraph(el, slug))
     }
   }
 
@@ -589,10 +592,15 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const handleThemeChange = () => {
     void renderLocalGraph()
   }
+  const onLocalGraphShow = () => {
+    void renderLocalGraph()
+  }
 
   document.addEventListener("themechange", handleThemeChange)
+  document.addEventListener("localgraphshow", onLocalGraphShow)
   window.addCleanup(() => {
     document.removeEventListener("themechange", handleThemeChange)
+    document.removeEventListener("localgraphshow", onLocalGraphShow)
   })
 
   const containers = [...document.getElementsByClassName("global-graph-outer")] as HTMLElement[]

@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Cuprins",
+      noToc: "Fără cuprins",
     },
     contentMeta: {
       readingTime: ({ minutes }) =>

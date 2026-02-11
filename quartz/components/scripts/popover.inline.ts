@@ -129,33 +129,66 @@ function isExplorerLinkValid(a: HTMLAnchorElement): boolean {
   return !!(href && href !== "#" && !href.startsWith("#"))
 }
 
+const POPOVER_OPEN_DELAY_MS = 1200 // 悬停 1.2s 后显示预览浮窗
+
 document.addEventListener("nav", () => {
-  // 正文内部链接绑定预览浮窗（排除目录 TOC）
+  // 正文内部链接绑定预览浮窗（排除目录 TOC），悬停 1.5s 后显示
   const internalLinks = document.querySelectorAll<HTMLAnchorElement>("a.internal")
   const bodyLinks = [...internalLinks].filter((el) => !el.closest(".toc"))
   for (const link of bodyLinks) {
-    link.addEventListener("mouseenter", mouseEnterHandler)
-    link.addEventListener("mouseleave", clearActivePopover)
+    let bodyPopoverTimer: ReturnType<typeof setTimeout> | null = null
+    const onBodyMouseEnter = (e: MouseEvent) => {
+      if (bodyPopoverTimer !== null) clearTimeout(bodyPopoverTimer)
+      bodyPopoverTimer = setTimeout(() => {
+        bodyPopoverTimer = null
+        mouseEnterHandler.call(link, e)
+      }, POPOVER_OPEN_DELAY_MS)
+    }
+    const onBodyMouseLeave = () => {
+      if (bodyPopoverTimer !== null) {
+        clearTimeout(bodyPopoverTimer)
+        bodyPopoverTimer = null
+      }
+      clearActivePopover()
+    }
+    link.addEventListener("mouseenter", onBodyMouseEnter)
+    link.addEventListener("mouseleave", onBodyMouseLeave)
     window.addCleanup(() => {
-      link.removeEventListener("mouseenter", mouseEnterHandler)
-      link.removeEventListener("mouseleave", clearActivePopover)
+      link.removeEventListener("mouseenter", onBodyMouseEnter)
+      link.removeEventListener("mouseleave", onBodyMouseLeave)
+      if (bodyPopoverTimer !== null) clearTimeout(bodyPopoverTimer)
     })
   }
 
-  // 左侧探索区域：延迟一帧后绑定事件委托（确保 explorer 已渲染），任意链接悬停触发浮窗
+  // 左侧探索区域：延迟一帧后绑定事件委托（确保 explorer 已渲染），悬停 1.5s 后显示预览浮窗
   const setupExplorerPopover = () => {
     const explorerRoot = document.querySelector<HTMLElement>(".explorer")
     if (!explorerRoot) return
+    let explorerPopoverTimer: ReturnType<typeof setTimeout> | null = null
+    let explorerPopoverLink: HTMLAnchorElement | null = null
     const onExplorerMouseOver = (e: MouseEvent) => {
       const link = (e.target as HTMLElement)?.closest?.(
         ".explorer a[href]",
       ) as HTMLAnchorElement | null
-      if (link && isExplorerLinkValid(link)) {
+      if (!link || !isExplorerLinkValid(link)) return
+      if (link === explorerPopoverLink) return
+      if (explorerPopoverTimer !== null) clearTimeout(explorerPopoverTimer)
+      explorerPopoverLink = link
+      explorerPopoverTimer = setTimeout(() => {
+        explorerPopoverTimer = null
+        explorerPopoverLink = null
         mouseEnterHandler.call(link, e)
-      }
+      }, POPOVER_OPEN_DELAY_MS)
     }
     const onExplorerMouseOut = (e: MouseEvent) => {
       const related = (e.relatedTarget as HTMLElement)?.closest?.(".explorer a[href]")
+      if (explorerPopoverLink && (!related || !explorerPopoverLink.contains(related as Node))) {
+        if (explorerPopoverTimer !== null) {
+          clearTimeout(explorerPopoverTimer)
+          explorerPopoverTimer = null
+        }
+        explorerPopoverLink = null
+      }
       if (!related) {
         clearActivePopover()
       }
@@ -165,6 +198,7 @@ document.addEventListener("nav", () => {
     window.addCleanup(() => {
       explorerRoot.removeEventListener("mouseover", onExplorerMouseOver)
       explorerRoot.removeEventListener("mouseout", onExplorerMouseOut)
+      if (explorerPopoverTimer !== null) clearTimeout(explorerPopoverTimer)
     })
   }
   setTimeout(setupExplorerPopover, 0)

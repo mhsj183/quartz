@@ -3,7 +3,8 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 
-const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
+const PageTitle: QuartzComponent = (props: QuartzComponentProps) => {
+  const { fileData, cfg, displayClass } = props
   const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
   const baseDir = pathToRoot(fileData.slug!)
   return (
@@ -13,12 +14,16 @@ const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzCompo
   )
 }
 
-PageTitle.css = `
+const pageTitleCss = `
 .page-title {
   font-size: 1.75rem;
   margin: 0;
   font-family: var(--titleFont);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 `
+PageTitle.css = pageTitleCss
 
 export default (() => PageTitle) satisfies QuartzComponentConstructor

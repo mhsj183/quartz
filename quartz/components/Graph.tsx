@@ -65,10 +65,11 @@ export default ((opts?: Partial<GraphOptions>) => {
     const globalGraph = { ...defaultOptions.globalGraph, ...opts?.globalGraph }
     return (
       <div id="graph-section" class={classNames(displayClass, "graph")}>
-        <h3>{i18n(cfg.locale).components.graph.title}</h3>
-        <div class="graph-outer">
-          <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
-          <button class="global-graph-icon" aria-label="Global Graph">
+        <div id="local-graph-outer" class="local-graph-outer">
+          <h3>{i18n(cfg.locale).components.graph.title}</h3>
+          <div class="graph-outer">
+            <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
+            <button class="global-graph-icon" aria-label="Global Graph">
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -94,6 +95,7 @@ export default ((opts?: Partial<GraphOptions>) => {
               />
             </svg>
           </button>
+        </div>
         </div>
         <div class="global-graph-outer">
           <div class="global-graph-container" data-cfg={JSON.stringify(globalGraph)}></div>

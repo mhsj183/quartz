@@ -56,6 +56,7 @@ export default {
     },
     tableOfContents: {
       title: "תוכן עניינים",
+      noToc: "אין תוכן עניינים",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} דקות קריאה`,

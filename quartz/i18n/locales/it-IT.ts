@@ -56,6 +56,7 @@ export default {
     },
     tableOfContents: {
       title: "Indice",
+      noToc: "Nessun indice",
     },
     contentMeta: {
       readingTime: ({ minutes }) => (minutes === 1 ? "1 minuto" : `${minutes} minuti`),

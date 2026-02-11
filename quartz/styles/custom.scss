@@ -2,29 +2,131 @@
 
 // put your custom CSS here!
 
-.site-cover {
+/* 左侧探索栏底部与页脚底对齐：非移动端让 .explorer 占满侧栏剩余高度 */
+@media (min-width: 800px) {
+  .page > #quartz-body .sidebar.left {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden; /* 保证 flex 子项高度可计算 */
+  }
+  .page > #quartz-body .sidebar.left .explorer {
+    flex: 1 1 0%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .page > #quartz-body .sidebar.left .explorer .explorer-content {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    /* 仅在有溢出时显示滚动条，overlay 时滚动条不占布局空间，避免默认占位 */
+    overflow-y: overlay;
+  }
+}
+
+/* 封面容器：暗黑模式按钮在右上方 */
+.site-cover-wrapper {
+  position: relative;
+  margin: 0 0 clamp(0.5rem, 2vw, 1.25rem);
+  /* 定义 CSS 变量供侧栏高度计算使用 */
+  --cover-height: clamp(140px, 20vw, 200px);
+  --cover-margin: clamp(0.5rem, 2vw, 1.25rem);
+
+  @media (max-width: 800px) {
+    --cover-height: clamp(120px, 34vw, 160px);
+  }
+}
+
+.site-cover-wrapper .site-cover {
   width: 100%;
-  height: clamp(140px, 20vw, 200px);
+  height: var(--cover-height);
   background-size: cover;
   /* 裁剪聚焦：右侧开放书本 + 花瓶玫瑰 + 暖色墙面，弱化左侧条纹 */
   background-position: 74% 50%;
   background-repeat: no-repeat;
-  margin: 0 0 clamp(0.5rem, 2vw, 1.25rem);
 
   @media (max-width: 800px) {
-    height: clamp(120px, 34vw, 160px);
     background-position: 72% 54%;
   }
 }
 
-.site-cover + .page {
+/* 左侧栏：搜索+暗黑模式一行与探索目录同宽，两组件垂直居中 */
+.page > #quartz-body .sidebar.left .flex-component {
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+}
+.page > #quartz-body .sidebar.left .flex-component .search {
+  max-width: none;
+  min-width: 0;
+}
+
+/* 有封面图时，调整侧栏和页头，避免侧栏把页脚挤出可视区 */
+.site-cover-wrapper + .page {
   #quartz-body {
+    @media (min-width: 1200px) {
+      /*
+       * 桌面端兜底：将页面高度约束到首屏可视区域（扣除封面），
+       * 并固定为 头部 + 主体(可伸缩) + 页脚 三行，避免侧栏内容把页脚挤出首屏。
+       */
+      min-height: calc(100vh - var(--cover-height) - var(--cover-margin));
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
     .sidebar {
       padding-top: clamp(0.75rem, 2.5vw, 1.5rem);
+      /* 使用 max-height 而非 fixed height，避免参与网格行高挤压 footer */
+      height: auto;
+      max-height: calc(100vh - var(--cover-height) - var(--cover-margin) - 2.5rem);
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .sidebar.right {
+      overflow-y: auto;
     }
 
     .page-header {
       margin: clamp(0.75rem, 2.5vw, 1.5rem) 0 0 0;
     }
+  }
+}
+
+@media (max-width: 800px) {
+  .site-cover-wrapper + .page #quartz-body .sidebar {
+    height: unset;
+    max-height: none;
+  }
+}
+
+@media (min-width: 800px) {
+  /* 强制覆盖 base 的 100vh，避免侧栏把首页 footer 顶出首屏 */
+  .page > #quartz-body .sidebar {
+    height: auto !important;
+    max-height: calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 2.5rem) !important;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .page > #quartz-body .sidebar.left .explorer,
+  .page > #quartz-body .sidebar.left .explorer .explorer-content,
+  .page > #quartz-body .sidebar.right {
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 800px) and (max-height: 860px) {
+  .site-cover-wrapper {
+    --cover-height: clamp(100px, 16vw, 130px);
+  }
+}
+
+@media (min-width: 800px) {
+  /* 首页内容较少但目录较长时，额外收紧侧栏高度，确保 footer 首屏可见 */
+  body[data-slug="index"] .page > #quartz-body .sidebar {
+    max-height: max(16rem, calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 10rem)) !important;
   }
 }

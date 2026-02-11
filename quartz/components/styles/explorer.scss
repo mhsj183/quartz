@@ -35,6 +35,12 @@
   min-height: 1.2rem;
   flex: 0 1 auto;
 
+  // 非移动端：探索栏拉伸到底，与页脚底对齐（≥800px 平板/桌面）
+  @media all and (min-width: 800px) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
   &.collapsed {
     flex: 0 1 1.2rem;
 
@@ -118,7 +124,15 @@ button.desktop-explorer {
   list-style: none;
   overflow: hidden;
   overflow-y: auto;
+  /* 到达上下边界时允许继续滚动整个页面 */
+  overscroll-behavior-y: auto;
   margin-top: 0.75rem;
+
+  // 非移动端：内容区占满剩余高度，与页脚底对齐时内部可滚动
+  @media all and (min-width: 800px) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
 
   & ul {
     list-style: none;
@@ -126,7 +140,8 @@ button.desktop-explorer {
     padding: 0;
 
     &.explorer-ul {
-      overscroll-behavior: contain;
+      /* 允许滚动链：到达上下边界时继续滚动整个页面 */
+      overscroll-behavior: auto;
     }
 
     & li {
@@ -290,10 +305,45 @@ li:has(> .folder-outer:not(.open)) > .folder-container > svg {
   }
 }
 
+/* 探索器悬停 2 秒预览浮窗 */
+.explorer-preview-popup {
+  position: fixed;
+  z-index: 9997;
+  max-width: 320px;
+  padding: 0.75rem 1rem;
+  background-color: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .explorer-preview-title {
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.35rem;
+  }
+
+  .explorer-preview-desc {
+    color: var(--gray);
+    font-size: 0.85rem;
+  }
+}
+
 .mobile-no-scroll {
   @media all and ($mobile) {
     .explorer-content > .explorer-ul {
-      overscroll-behavior: contain;
+      /* 移动端也允许滚动链，便于在侧栏边界处继续滚动页面 */
+      overscroll-behavior: auto;
     }
   }
 }

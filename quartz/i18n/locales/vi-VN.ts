@@ -55,6 +55,7 @@ export default {
     },
     tableOfContents: {
       title: "Mục lục",
+      noToc: "Chưa có mục lục",
     },
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} phút đọc`,

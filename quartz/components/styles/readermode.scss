@@ -1,4 +1,4 @@
-.readermode.graph-toggle {
+.readermode.toc-toggle {
   cursor: pointer;
   padding: 0;
   position: relative;
@@ -16,12 +16,10 @@
     height: 20px;
     top: calc(50% - 10px);
     left: 0;
-    fill: var(--secondary);
-    stroke: var(--secondary);
     transition: opacity 0.15s ease, fill 0.2s ease, stroke 0.2s ease;
   }
 
-  /* 默认：展开高亮，显示打开的书（绿色高亮） */
+  /* 默认（目录展开）：绿色高亮 */
   & .icon-open {
     opacity: 1;
   }
@@ -29,19 +27,44 @@
     opacity: 0;
   }
 
-  /* 隐藏后：图标样式不变，只把线条改为灰色、不再高亮 */
-  &.graph-hidden {
+  &:not(.toc-collapsed) svg {
+    fill: var(--tertiary);
+    stroke: var(--tertiary);
+  }
+
+  /* 目录收起时：与阅读时长同色（灰色） */
+  &.toc-collapsed svg {
+    fill: var(--gray);
+    stroke: var(--gray);
+  }
+  &.toc-collapsed .icon-open {
+    opacity: 1;
+  }
+  &.toc-collapsed .icon-closed {
+    opacity: 0;
+  }
+
+  /* 禁用（无目录）：置灰、不可点击 */
+  &.toc-toggle-disabled {
+    cursor: not-allowed;
+    pointer-events: auto; /* 保留 hover 以显示 tooltip */
+
     & svg {
-      fill: var(--darkgray);
-      stroke: var(--darkgray);
+      fill: var(--gray);
+      stroke: var(--gray);
+      opacity: 0.6;
     }
     &:hover svg {
-      fill: var(--darkgray);
-      stroke: var(--darkgray);
+      fill: var(--gray);
+      stroke: var(--gray);
     }
   }
 
-  &:hover svg {
+  &:not(.toc-toggle-disabled):hover svg {
+    fill: var(--tertiary);
+    stroke: var(--tertiary);
+  }
+  &:not(.toc-toggle-disabled).toc-collapsed:hover svg {
     fill: var(--tertiary);
     stroke: var(--tertiary);
   }

@@ -268,12 +268,14 @@ export function renderPage(
       <Head {...componentData} />
       <body data-slug={slug}>
         {/* 封面图常驻显示于所有页面（含主页 index） */}
-        <div
-          class="site-cover"
-          style={`background-image: url("${coverImageSrc}")`}
-          role="presentation"
-          aria-hidden="true"
-        ></div>
+        <div class="site-cover-wrapper">
+          <div
+            class="site-cover"
+            style={`background-image: url("${coverImageSrc}")`}
+            role="presentation"
+            aria-hidden="true"
+          ></div>
+        </div>
         <div id="quartz-root" class="page">
           <Body {...componentData}>
             {LeftComponent}

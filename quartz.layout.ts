@@ -38,7 +38,7 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
+    Component.ContentMetaWithGraphToggle(),
     Component.TagList(),
   ],
   left: [
@@ -46,13 +46,10 @@ export const defaultContentPageLayout: PageLayout = {
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
+        { Component: Component.Search(), grow: true },
+        { Component: Component.Darkmode(), grow: false, shrink: false },
       ],
+      gap: "0.5rem",
     }),
     Component.Explorer({ folderDefaultState: "open" }),
   ],
@@ -71,12 +68,10 @@ export const defaultListPageLayout: PageLayout = {
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
+        { Component: Component.Search(), grow: true },
+        { Component: Component.Darkmode(), grow: false, shrink: false },
       ],
+      gap: "0.5rem",
     }),
     Component.Explorer({ folderDefaultState: "open" }),
   ],
