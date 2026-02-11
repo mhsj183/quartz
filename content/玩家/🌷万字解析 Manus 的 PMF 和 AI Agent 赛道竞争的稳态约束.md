@@ -6,7 +6,6 @@ tags:
   - Manus
   - 观察
 ---
-> 原文链接：[万字解析 Manus 的 PMF 和 AI Agent 赛道竞争的稳态约束](https://mp.weixin.qq.com/s/bS1uAqBlAC4rOURqfWXPvQ)
 ## 各个社交平台的差异化
 - X、LinkedIn、YouTube 以及大量的 SEO 导向的网页，混杂了真实使用体验、个人品牌表达和商业推广。更多反映的是：
 	- 一个工具希望被如何理解
