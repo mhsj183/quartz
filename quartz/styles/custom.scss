@@ -1,3 +1,30 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+
+.site-cover {
+  width: 100%;
+  height: clamp(140px, 20vw, 200px);
+  background-size: cover;
+  /* 裁剪聚焦：右侧开放书本 + 花瓶玫瑰 + 暖色墙面，弱化左侧条纹 */
+  background-position: 74% 50%;
+  background-repeat: no-repeat;
+  margin: 0 0 clamp(0.5rem, 2vw, 1.25rem);
+
+  @media (max-width: 800px) {
+    height: clamp(120px, 34vw, 160px);
+    background-position: 72% 54%;
+  }
+}
+
+.site-cover + .page {
+  #quartz-body {
+    .sidebar {
+      padding-top: clamp(0.75rem, 2.5vw, 1.5rem);
+    }
+
+    .page-header {
+      margin: clamp(0.75rem, 2.5vw, 1.5rem) 0 0 0;
+    }
+  }
+}

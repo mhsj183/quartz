@@ -11,6 +11,8 @@
 
   & > .callout-content {
     display: grid;
+    row-gap: 1rem;
+    padding-bottom: 1rem;
     transition: grid-template-rows 0.1s cubic-bezier(0.02, 0.01, 0.47, 1);
     overflow: hidden;
 
@@ -115,7 +117,13 @@
   &[data-callout="quote"] {
     --color: var(--secondary);
     --border: var(--lightgray);
+    --bg: color-mix(in srgb, var(--secondary) 12%, transparent);
     --callout-icon: var(--callout-icon-quote);
+
+    & > .callout-content {
+      font-size: 0.92em;
+      color: var(--darkgray);
+    }
   }
 
   &.is-collapsed {

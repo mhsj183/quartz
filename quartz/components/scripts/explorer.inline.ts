@@ -35,6 +35,22 @@ function toggleExplorer(this: HTMLElement) {
   } else {
     document.documentElement.classList.remove("mobile-no-scroll")
   }
+
+  // 展开侧边栏时展开目录下所有文件夹，收起侧边栏时收起所有文件夹
+  const folderOuters = nearestExplorer.querySelectorAll(".folder-outer") as NodeListOf<HTMLElement>
+  const expandAll = !explorerCollapsed
+  for (const folderOuter of folderOuters) {
+    const folderContainer = folderOuter.previousElementSibling as HTMLElement
+    const path = folderContainer?.dataset?.folderpath
+    if (!path) continue
+    setFolderState(folderOuter, !expandAll)
+    const state = currentExplorerState.find((item) => item.path === path)
+    if (state) state.collapsed = !expandAll
+    else currentExplorerState.push({ path, collapsed: !expandAll })
+  }
+  if (nearestExplorer.dataset.savestate === "true") {
+    localStorage.setItem("fileTree", JSON.stringify(currentExplorerState))
+  }
 }
 
 function toggleFolder(evt: MouseEvent) {
