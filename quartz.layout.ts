@@ -5,6 +5,22 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
+  betweenContentAndHr: [
+    Component.ConditionalRender({
+      component: Component.SourceLink(),
+      condition: (page) => {
+        const slug = page.fileData?.slug ?? ""
+        if (slug.endsWith("/index") || slug.startsWith("tags/")) return false
+        const fm = (page.fileData?.frontmatter ?? {}) as Record<string, unknown>
+        const hasSource =
+          (typeof fm["源地址"] === "string" && !!fm["源地址"]?.trim()) ||
+          (typeof fm.sourceUrl === "string" && !!(fm.sourceUrl as string)?.trim()) ||
+          (typeof fm.source === "string" && !!(fm.source as string)?.trim()) ||
+          (typeof fm.source_url === "string" && !!(fm.source_url as string)?.trim())
+        return !!hasSource
+      },
+    }),
+  ],
   afterBody: [],
   footer: Component.Footer({
     links: {

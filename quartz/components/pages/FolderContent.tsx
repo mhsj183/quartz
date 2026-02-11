@@ -27,7 +27,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
   const options: FolderContentOptions = { ...defaultOptions, ...opts }
 
   const FolderContent: QuartzComponent = (props: QuartzComponentProps) => {
-    const { tree, fileData, allFiles, cfg } = props
+    const { tree, fileData, allFiles } = props
 
     const trie = (props.ctx.trie ??= trieFromAllFiles(allFiles))
     const folder = trie.findNode(fileData.slug!.split("/"))
@@ -107,9 +107,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
         <div class="page-listing">
           {options.showFolderCount && (
             <p class="folder-notes-count">
-              <span class="date-display">
-                {allPagesInFolder.length} notes
-              </span>
+              <span class="date-display">{allPagesInFolder.length} notes</span>
             </p>
           )}
           <div>

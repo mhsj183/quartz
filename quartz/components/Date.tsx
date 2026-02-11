@@ -34,6 +34,14 @@ export function formatDateMMDDYYYY(d: Date): string {
   return `${mm}.${dd}.${yyyy}`
 }
 
+/** 英文格式日期：mm.dd,yyyy（用于 SourceLink 的原文发布日期） */
+export function formatDateMMDDCommaYYYY(d: Date): string {
+  const mm = String(d.getMonth() + 1).padStart(2, "0")
+  const dd = String(d.getDate()).padStart(2, "0")
+  const yyyy = d.getFullYear()
+  return `${mm}.${dd},${yyyy}`
+}
+
 export function Date({ date, locale: _locale }: Props) {
   return (
     <time class="date-display" datetime={date.toISOString()}>

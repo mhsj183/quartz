@@ -95,6 +95,8 @@ export interface FullPageLayout {
   header: QuartzComponent[]
   beforeBody: QuartzComponent[]
   pageBody: QuartzComponent
+  /** Rendered between pageBody and hr (e.g. 阅读原文 link) */
+  betweenContentAndHr: QuartzComponent[]
   afterBody: QuartzComponent[]
   left: QuartzComponent[]
   right: QuartzComponent[]
@@ -102,4 +104,7 @@ export interface FullPageLayout {
 }
 
 export type PageLayout = Pick<FullPageLayout, "beforeBody" | "left" | "right">
-export type SharedLayout = Pick<FullPageLayout, "head" | "header" | "footer" | "afterBody">
+export type SharedLayout = Pick<
+  FullPageLayout,
+  "head" | "header" | "footer" | "afterBody" | "betweenContentAndHr"
+>

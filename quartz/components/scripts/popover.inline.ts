@@ -5,15 +5,13 @@ import { fetchCanonical } from "./util"
 const p = new DOMParser()
 let activeAnchor: HTMLAnchorElement | null = null
 
-async function mouseEnterHandler(
-  this: HTMLAnchorElement,
-  { clientX, clientY }: { clientX: number; clientY: number },
-) {
+async function mouseEnterHandler(this: HTMLAnchorElement, e: MouseEvent) {
   const link = (activeAnchor = this)
   if (link.dataset.noPopover === "true") {
     return
   }
 
+  const { clientX, clientY } = e
   const isExplorerLink = link.closest(".explorer") !== null
   const POPOVER_MIN_LEFT_PX = 100
 
@@ -133,8 +131,8 @@ function isExplorerLinkValid(a: HTMLAnchorElement): boolean {
 
 document.addEventListener("nav", () => {
   // 正文内部链接绑定预览浮窗（排除目录 TOC）
-  const internalLinks = document.querySelectorAll("a.internal")
-  const bodyLinks = [...internalLinks].filter((el) => !(el as HTMLElement).closest(".toc"))
+  const internalLinks = document.querySelectorAll<HTMLAnchorElement>("a.internal")
+  const bodyLinks = [...internalLinks].filter((el) => !el.closest(".toc"))
   for (const link of bodyLinks) {
     link.addEventListener("mouseenter", mouseEnterHandler)
     link.addEventListener("mouseleave", clearActivePopover)
@@ -146,12 +144,12 @@ document.addEventListener("nav", () => {
 
   // 左侧探索区域：延迟一帧后绑定事件委托（确保 explorer 已渲染），任意链接悬停触发浮窗
   const setupExplorerPopover = () => {
-    const explorerRoot = document.querySelector(".explorer")
+    const explorerRoot = document.querySelector<HTMLElement>(".explorer")
     if (!explorerRoot) return
     const onExplorerMouseOver = (e: MouseEvent) => {
-      const link = (e.target as HTMLElement)?.closest?.(".explorer a[href]") as
-        | HTMLAnchorElement
-        | null
+      const link = (e.target as HTMLElement)?.closest?.(
+        ".explorer a[href]",
+      ) as HTMLAnchorElement | null
       if (link && isExplorerLinkValid(link)) {
         mouseEnterHandler.call(link, e)
       }

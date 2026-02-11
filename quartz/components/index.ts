@@ -1,4 +1,5 @@
 import Content from "./pages/Content"
+import SourceLink from "./SourceLink"
 import TagContent from "./pages/TagContent"
 import FolderContent from "./pages/FolderContent"
 import NotFound from "./pages/404"
@@ -27,6 +28,7 @@ import ConditionalRender from "./ConditionalRender"
 export {
   ArticleTitle,
   Content,
+  SourceLink,
   TagContent,
   FolderContent,
   Darkmode,

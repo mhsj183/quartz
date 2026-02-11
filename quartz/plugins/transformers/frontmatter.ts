@@ -114,10 +114,15 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             if (modified) data.modified = modified
             data.modified ||= created // if modified is not set, use created
 
-            const published = coalesceAliases(data, ["published", "publishDate", "date"])
+            const published = coalesceAliases(data, ["published", "publishDate", "date", "发布日期"])
             if (published) data.published = published
 
             if (socialImage) data.socialImage = socialImage
+
+            const sourceUrl = coalesceAliases(data, ["源地址", "source", "sourceUrl", "source_url"])
+            if (sourceUrl && typeof sourceUrl === "string") {
+              data.sourceUrl = sourceUrl
+            }
 
             // Remove duplicate slugs
             const uniqueSlugs = [...new Set(allSlugs)]
@@ -152,6 +157,7 @@ declare module "vfile" {
         cssclasses: string[]
         socialImage: string
         comments: boolean | string
+        sourceUrl: string
       }>
   }
 }
