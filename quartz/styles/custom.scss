@@ -209,8 +209,8 @@
       font-weight: 500;
       line-height: 1.4 !important;
       padding: 0.12rem 0.6rem !important;
-      color: var(--gray) !important;
-      opacity: 0.78 !important;
+      color: color-mix(in srgb, var(--darkgray) 42%, var(--gray) 58%) !important;
+      opacity: 1 !important;
       transition: color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
       background: transparent !important;
       text-decoration: none;
@@ -219,14 +219,14 @@
       word-wrap: break-word;
 
       &:hover {
-        background-color: transparent !important;
+        background-color: color-mix(in srgb, var(--tertiary) 16%, var(--light) 84%) !important;
         color: var(--tertiary) !important;
         opacity: 1 !important;
       }
       &.in-view {
-        color: color-mix(in srgb, var(--gray) 70%, var(--dark)) !important;
+        color: var(--tertiary) !important;
         opacity: 1 !important;
-        font-weight: 500;
+        font-weight: 600;
       }
     }
   }
@@ -248,15 +248,47 @@
     opacity: 0.9 !important;
 
     &:hover {
-      color: color-mix(in srgb, var(--dark) 74%, var(--tertiary) 26%) !important;
+      background-color: color-mix(in srgb, var(--tertiary) 24%, transparent 76%) !important;
+      color: var(--tertiary) !important;
       opacity: 1 !important;
     }
 
     &.in-view {
-      color: color-mix(in srgb, var(--dark) 62%, var(--gray) 38%) !important;
+      color: var(--tertiary) !important;
       opacity: 1 !important;
-      font-weight: 500;
+      font-weight: 600;
     }
+  }
+}
+
+/* 目录浮动按钮与目录浮层：统一底部基准，保持两者原有相对间距 */
+:root {
+  --floating-toc-bottom: 63px;
+}
+
+#floating-toc-wrap {
+  bottom: var(--floating-toc-bottom) !important;
+}
+
+#toc-overlay {
+  /* 原始相对距离：浮层底边 = 按钮底边 + 按钮高度(2.75rem) + 1rem */
+  bottom: calc(var(--floating-toc-bottom) + 2.75rem + 1rem) !important;
+}
+
+/* 非移动端正文略收窄，避免内容贴近右侧屏幕边缘 */
+@media (min-width: 800px) and (max-width: 1199px) {
+  .page > #quartz-body .center > article {
+    max-width: 44rem;
+    width: 100%;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page > #quartz-body .center > article {
+    max-width: 52rem;
+    width: 100%;
+    margin-right: auto;
   }
 }
 

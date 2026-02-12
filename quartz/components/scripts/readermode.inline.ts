@@ -21,6 +21,11 @@ function syncTocToggleButtonState() {
 
 function syncBodyTocState() {
   const toc = document.querySelector(".toc") as HTMLElement | null
+  if (isTocOverlayMode()) {
+    // 浮层模式下不参与桌面三栏重排，避免滚动状态下误触发布局抖动
+    document.body.classList.remove("toc-panel-hidden")
+    return
+  }
   const isHidden = toc?.classList.contains("toc-hidden") ?? false
   document.body.classList.toggle("toc-panel-hidden", isHidden)
 }
@@ -50,7 +55,6 @@ function closeTocOverlay() {
     removeOverlayEscapeHandler()
     removeOverlayEscapeHandler = null
   }
-  document.body.classList.remove("toc-overlay-open")
   requestAnimationFrame(syncTocToggleButtonState)
 }
 
@@ -110,7 +114,6 @@ function openTocOverlay() {
 
   backdrop.classList.add("open")
   overlay.classList.add("open")
-  document.body.classList.add("toc-overlay-open")
   if (removeOverlayOutsideCloseHandler) {
     removeOverlayOutsideCloseHandler()
     removeOverlayOutsideCloseHandler = null

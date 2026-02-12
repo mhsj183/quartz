@@ -24,6 +24,17 @@ const isSamePage = (url: URL): boolean => {
   return sameOrigin && samePath
 }
 
+const HASH_SCROLL_TOP_OFFSET = 20
+
+function scrollToHashTarget(hash: string) {
+  if (!hash) return
+  const slug = decodeURIComponent(hash.substring(1))
+  const el = document.getElementById(slug)
+  if (!el) return
+  const targetTop = el.getBoundingClientRect().top + window.scrollY - HASH_SCROLL_TOP_OFFSET
+  window.scrollTo({ top: Math.max(0, targetTop) })
+}
+
 const getOpts = ({ target }: Event): { url: URL; scroll?: boolean } | undefined => {
   if (!isElement(target)) return
   if (target.attributes.getNamedItem("target")?.value === "_blank") return
@@ -123,8 +134,7 @@ async function _navigate(url: URL, isBack: boolean = false) {
   // scroll into place and add history
   if (!isBack) {
     if (url.hash) {
-      const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-      el?.scrollIntoView()
+      scrollToHashTarget(url.hash)
     } else {
       window.scrollTo({ top: 0 })
     }
@@ -170,8 +180,7 @@ function createRouter() {
       event.preventDefault()
 
       if (isSamePage(url) && url.hash) {
-        const el = document.getElementById(decodeURIComponent(url.hash.substring(1)))
-        el?.scrollIntoView()
+        scrollToHashTarget(url.hash)
         history.pushState({}, "", url)
         return
       }

@@ -62,11 +62,6 @@
   }
 }
 
-/* 小屏目录浮层打开时禁止背景滚动 */
-body.toc-overlay-open {
-  overflow: hidden;
-}
-
 /* 小屏目录右侧浮层（Notion 风格）：无蒙版，背板仅用于点击关闭 */
 #toc-overlay-backdrop {
   position: fixed;
