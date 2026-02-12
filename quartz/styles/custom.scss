@@ -263,7 +263,10 @@
 
 /* 目录浮动按钮与目录浮层：统一底部基准，保持两者原有相对间距 */
 :root {
-  --floating-toc-bottom: 63px;
+  /* 固定基准值：脚本只读取该值，避免读到运行时写回后的动态值 */
+  --floating-toc-base-bottom: 63px;
+  /* 运行时动态值：由脚本在滚动/切页时更新 */
+  --floating-toc-bottom: var(--floating-toc-base-bottom);
 }
 
 #floating-toc-wrap {
@@ -289,6 +292,141 @@
     max-width: 52rem;
     width: 100%;
     margin-right: auto;
+  }
+}
+
+/* 笔记内图片点击预览浮层 */
+#quartz-body .center article.popover-hint img {
+  cursor: zoom-in;
+}
+
+#image-preview-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1300;
+  padding: clamp(0.75rem, 2.8vw, 2rem);
+  animation: image-preview-fade-in 160ms ease;
+}
+
+#image-preview-overlay.open {
+  display: flex;
+}
+
+#image-preview-overlay .image-preview-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.42);
+  backdrop-filter: blur(1.5px);
+}
+
+#image-preview-overlay .image-preview-panel {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  max-width: min(94vw, 1360px);
+  max-height: min(92vh, 980px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.4rem, 1.1vw, 0.85rem);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--light) 94%, white 6%);
+  border: 1px solid color-mix(in srgb, var(--lightgray) 68%, var(--light) 32%);
+  box-shadow:
+    0 20px 50px rgba(15, 23, 42, 0.22),
+    0 1px 0 rgba(255, 255, 255, 0.45) inset;
+  transform: translateY(4px) scale(0.985);
+  opacity: 0;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+#image-preview-overlay.open .image-preview-panel {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+#image-preview-overlay .image-preview-content {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(88vw, 1280px);
+  max-height: min(84vh, 900px);
+  object-fit: contain;
+  border-radius: 8px;
+  background: var(--light);
+}
+
+/* 横图/竖图/方图分开限制，避免留白比例不协调 */
+#image-preview-overlay .image-preview-panel[data-orientation="landscape"] .image-preview-content {
+  max-width: min(90vw, 1360px);
+  max-height: min(82vh, 860px);
+}
+
+#image-preview-overlay .image-preview-panel[data-orientation="portrait"] .image-preview-content {
+  max-width: min(60vw, 760px);
+  max-height: min(88vh, 980px);
+}
+
+#image-preview-overlay .image-preview-panel[data-orientation="square"] .image-preview-content {
+  max-width: min(72vw, 900px);
+  max-height: min(86vh, 920px);
+}
+
+/* 小图不被过度放大，保留适当留白 */
+#image-preview-overlay .image-preview-panel[data-small-image="true"] .image-preview-content {
+  max-width: min(68vw, 760px);
+  max-height: min(70vh, 700px);
+}
+
+@media (max-width: 800px) {
+  #image-preview-overlay {
+    padding: clamp(0.5rem, 2.4vw, 1rem);
+  }
+
+  #image-preview-overlay .image-preview-panel {
+    max-width: 96vw;
+    max-height: 92vh;
+    border-radius: 10px;
+    padding: 0.35rem;
+  }
+
+  #image-preview-overlay .image-preview-content,
+  #image-preview-overlay .image-preview-panel[data-orientation="landscape"] .image-preview-content,
+  #image-preview-overlay .image-preview-panel[data-orientation="portrait"] .image-preview-content,
+  #image-preview-overlay .image-preview-panel[data-orientation="square"] .image-preview-content,
+  #image-preview-overlay .image-preview-panel[data-small-image="true"] .image-preview-content {
+    max-width: 94vw;
+    max-height: 86vh;
+  }
+}
+
+:root[saved-theme="dark"] #image-preview-overlay .image-preview-backdrop {
+  background: rgba(2, 6, 23, 0.62);
+}
+
+:root[saved-theme="dark"] #image-preview-overlay .image-preview-panel {
+  background: color-mix(in srgb, var(--light) 95%, #0f172a 5%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.48),
+    0 1px 0 rgba(255, 255, 255, 0.04) inset;
+}
+
+:root[saved-theme="dark"] #image-preview-overlay .image-preview-content {
+  background: color-mix(in srgb, var(--light) 92%, #0f172a 8%);
+}
+
+@keyframes image-preview-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
