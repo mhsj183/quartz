@@ -1,17 +1,43 @@
-const observer = new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    const slug = entry.target.id
-    const tocEntryElements = document.querySelectorAll(`a[data-for="${slug}"]`)
-    const windowHeight = entry.rootBounds?.height
-    if (windowHeight && tocEntryElements.length > 0) {
-      if (entry.boundingClientRect.y < windowHeight) {
-        tocEntryElements.forEach((tocEntryElement) => tocEntryElement.classList.add("in-view"))
-      } else {
-        tocEntryElements.forEach((tocEntryElement) => tocEntryElement.classList.remove("in-view"))
-      }
+let activeTocSlug: string | null = null
+
+function setActiveTocEntry(slug: string | null) {
+  if (activeTocSlug === slug) return
+
+  document
+    .querySelectorAll<HTMLAnchorElement>(".toc a.in-view")
+    .forEach((tocEntryElement) => tocEntryElement.classList.remove("in-view"))
+
+  if (slug) {
+    document
+      .querySelectorAll<HTMLAnchorElement>(`.toc a[data-for="${slug}"]`)
+      .forEach((tocEntryElement) => tocEntryElement.classList.add("in-view"))
+  }
+
+  activeTocSlug = slug
+}
+
+function updateActiveTocEntry() {
+  const headers = [...document.querySelectorAll<HTMLElement>("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]")]
+  if (headers.length === 0) {
+    setActiveTocEntry(null)
+    return
+  }
+
+  // 以视口顶部下方少量偏移作为“当前位置”
+  const activationOffset = 120
+  const thresholdY = activationOffset
+  let activeHeader = headers[0]
+
+  for (const header of headers) {
+    if (header.getBoundingClientRect().top <= thresholdY) {
+      activeHeader = header
+    } else {
+      break
     }
   }
-})
+
+  setActiveTocEntry(activeHeader.id || null)
+}
 
 function toggleToc(this: HTMLElement) {
   this.classList.toggle("collapsed")
@@ -37,8 +63,22 @@ function setupToc() {
 document.addEventListener("nav", () => {
   setupToc()
 
-  // update toc entry highlighting
-  observer.disconnect()
-  const headers = document.querySelectorAll("h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]")
-  headers.forEach((header) => observer.observe(header))
+  let rafId: number | null = null
+  const onScrollOrResize = () => {
+    if (rafId !== null) return
+    rafId = requestAnimationFrame(() => {
+      rafId = null
+      updateActiveTocEntry()
+    })
+  }
+
+  window.addEventListener("scroll", onScrollOrResize, { passive: true })
+  window.addEventListener("resize", onScrollOrResize)
+  window.addCleanup(() => {
+    window.removeEventListener("scroll", onScrollOrResize)
+    window.removeEventListener("resize", onScrollOrResize)
+    if (rafId !== null) cancelAnimationFrame(rafId)
+  })
+
+  updateActiveTocEntry()
 })

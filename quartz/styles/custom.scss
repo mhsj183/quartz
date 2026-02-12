@@ -130,3 +130,133 @@
     max-height: max(16rem, calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 10rem)) !important;
   }
 }
+
+/* 大纲隐藏时：缩小右侧栏、正文区域扩展以适应屏幕 */
+@media (min-width: 1200px) {
+  body.toc-panel-hidden .page > #quartz-body {
+    grid-template-columns: 320px 1fr 160px;
+  }
+}
+
+/* Notion 风格目录浮层（写在此处保证最后加载、覆盖 readermode/toc 样式） */
+#toc-overlay {
+  max-width: 90vw !important;
+}
+
+#toc-overlay .toc-overlay-panel {
+  width: auto;
+  min-width: 120px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  margin: 0;
+  padding: 1.5rem 1.5rem 2rem;
+  background: var(--light) !important;
+  border-radius: 16px !important;
+  box-shadow: -2px 0 16px rgba(0, 0, 0, 0.06), -1px 0 4px rgba(0, 0, 0, 0.03) !important;
+  -webkit-overflow-scrolling: touch;
+  font-family: inherit;
+  white-space: normal;
+  word-wrap: break-word;
+
+  .toc-overlay-clone,
+  .desktop-only.toc-overlay-clone {
+    .toc-header {
+      flex-shrink: 0;
+      margin-bottom: 0.75rem;
+      color: var(--dark) !important;
+      font-weight: 600;
+    }
+
+    .toc-content,
+    ul.toc-content.overflow {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      max-height: none !important;
+      /* 文字区域上下留出安全边距，避免首尾条目贴近浮层边界 */
+      padding: 0.45rem 0 !important;
+      overflow-y: visible;
+      margin: 0.25rem 0 0 !important;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    /* 浮层目录不使用底部渐变遮罩，避免最后一项被压暗 */
+    ul.toc-content.overflow.gradient-active {
+      mask-image: none !important;
+    }
+
+    /* 隐藏 overflow 观察用占位项，避免底部出现多余空白 */
+    ul.toc-content.overflow > li.overflow-end {
+      display: none;
+    }
+
+    ul.toc-content.overflow > li {
+      margin-bottom: 0.08rem;
+    }
+    ul.toc-content.overflow > li:last-child {
+      margin-bottom: 0;
+    }
+
+    ul.toc-content.overflow > li > a,
+    ul.toc-content > li > a {
+      display: block !important;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.4 !important;
+      padding: 0.12rem 0.6rem !important;
+      color: var(--gray) !important;
+      opacity: 0.78 !important;
+      transition: color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+      background: transparent !important;
+      text-decoration: none;
+      border-radius: 4px;
+      white-space: normal;
+      word-wrap: break-word;
+
+      &:hover {
+        background-color: transparent !important;
+        color: var(--tertiary) !important;
+        opacity: 1 !important;
+      }
+      &.in-view {
+        color: color-mix(in srgb, var(--gray) 70%, var(--dark)) !important;
+        opacity: 1 !important;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+/* 暗黑模式下与 readermode 保持一致：低对比深色卡片，不突兀但有边界 */
+:root[saved-theme="dark"] #toc-overlay .toc-overlay-panel {
+  background: color-mix(in srgb, var(--light) 94%, white 6%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.035) inset !important;
+}
+
+:root[saved-theme="dark"] #toc-overlay .toc-overlay-panel .toc-overlay-clone {
+  ul.toc-content.overflow > li > a,
+  ul.toc-content > li > a {
+    color: color-mix(in srgb, var(--dark) 36%, var(--gray) 64%) !important;
+    opacity: 0.9 !important;
+
+    &:hover {
+      color: color-mix(in srgb, var(--dark) 74%, var(--tertiary) 26%) !important;
+      opacity: 1 !important;
+    }
+
+    &.in-view {
+      color: color-mix(in srgb, var(--dark) 62%, var(--gray) 38%) !important;
+      opacity: 1 !important;
+      font-weight: 500;
+    }
+  }
+}
+

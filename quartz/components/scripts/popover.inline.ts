@@ -132,7 +132,7 @@ function isExplorerLinkValid(a: HTMLAnchorElement): boolean {
 const POPOVER_OPEN_DELAY_MS = 1200 // 悬停 1.2s 后显示预览浮窗
 
 document.addEventListener("nav", () => {
-  // 正文内部链接绑定预览浮窗（排除目录 TOC），悬停 1.5s 后显示
+  // 正文内部链接绑定预览浮窗（排除目录 TOC），悬停 1.2s 后显示
   const internalLinks = document.querySelectorAll<HTMLAnchorElement>("a.internal")
   const bodyLinks = [...internalLinks].filter((el) => !el.closest(".toc"))
   for (const link of bodyLinks) {
@@ -160,7 +160,7 @@ document.addEventListener("nav", () => {
     })
   }
 
-  // 左侧探索区域：延迟一帧后绑定事件委托（确保 explorer 已渲染），悬停 1.5s 后显示预览浮窗
+  // 左侧探索区域：延迟一帧后绑定事件委托（确保 explorer 已渲染），悬停 1.2s 后显示预览浮窗
   const setupExplorerPopover = () => {
     const explorerRoot = document.querySelector<HTMLElement>(".explorer")
     if (!explorerRoot) return

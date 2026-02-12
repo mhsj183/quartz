@@ -20,6 +20,13 @@ type FolderState = {
 }
 
 let currentExplorerState: Array<FolderState>
+
+function refreshSidebarLayout() {
+  // Force layout-dependent components/styles to recompute after folder animations.
+  window.dispatchEvent(new Event("resize"))
+  window.setTimeout(() => window.dispatchEvent(new Event("resize")), 320)
+}
+
 function toggleExplorer(this: HTMLElement) {
   const nearestExplorer = this.closest(".explorer") as HTMLElement
   if (!nearestExplorer) return
@@ -51,6 +58,8 @@ function toggleExplorer(this: HTMLElement) {
   if (nearestExplorer.dataset.savestate === "true") {
     localStorage.setItem("fileTree", JSON.stringify(currentExplorerState))
   }
+
+  refreshSidebarLayout()
 }
 
 function toggleFolder(evt: MouseEvent) {
@@ -93,6 +102,8 @@ function toggleFolder(evt: MouseEvent) {
 
   const stringifiedFileTree = JSON.stringify(currentExplorerState)
   localStorage.setItem("fileTree", stringifiedFileTree)
+
+  refreshSidebarLayout()
 }
 
 function createFileNode(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElement {
@@ -276,7 +287,7 @@ async function setupExplorer(currentSlug: FullSlug) {
       window.addCleanup(() => icon.removeEventListener("click", toggleFolder))
     }
 
-    // 探索区链接的预览由 popover.inline.ts 统一处理（悬停 1.5s 显示），此处不再绑定 2 秒轻量预览，避免出现两个预览窗口
+    // 探索区链接的预览由 popover.inline.ts 统一处理（悬停 1.2s 显示），此处不再绑定 2 秒轻量预览，避免出现两个预览窗口
   }
 }
 

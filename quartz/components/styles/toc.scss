@@ -7,8 +7,14 @@
   min-height: 0; /* flex 子项可收缩，内部滚动才能正确计算高度 */
   flex: 0 0.5 auto;
   margin-bottom: 20px; /* 目录大纲区域离浏览器底部保留 20px */
-  &:has(button.toc-header.collapsed) {
-    flex: 0 1 1.4rem;
+
+  /* 书籍图标按钮控制：隐藏整个大纲组件 */
+  &.toc-hidden {
+    display: none !important;
+  }
+
+  > .toc-header {
+    display: none;
   }
 }
 
@@ -42,16 +48,16 @@ button.toc-header {
 ul.toc-content.overflow {
   list-style: none;
   position: relative;
-  margin: 0.5rem 0;
+  margin: 0;
   padding: 0 0 300px 0; /* 底部留白，最后一项可完整滚入可见区域 */
-  max-height: calc(100% - 2rem - 300px); /* 预留 300px 给底部间距与留白 */
+  max-height: calc(100% - 300px); /* 去掉标题行后不再预留标题高度 */
   overscroll-behavior: contain;
   list-style: none;
   flex: 1 1 auto;
   min-height: 0;
 
   & > li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.32rem;
   }
 
   & > li:last-child {
@@ -60,17 +66,27 @@ ul.toc-content.overflow {
 
   & > li > a {
     display: block;
-    line-height: 1.35;
-    color: var(--dark);
-    opacity: 0.35;
+    line-height: 1.3;
+    font-weight: 350;
+    color: color-mix(in srgb, var(--darkgray) 42%, var(--gray) 58%);
+    opacity: 1;
     transition:
-      0.5s ease opacity,
-      0.3s ease color;
-    /* 目录区域取消黄色高亮 */
+      0.2s ease color,
+      0.2s ease background-color;
+    /* 默认深灰；悬停浅绿底 */
     background-color: transparent;
-    padding: 0;
+    padding: 0.08rem 0.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--tertiary) 16%, var(--light) 84%);
+      color: var(--tertiary);
+    }
+
     &.in-view {
-      opacity: 0.75;
+      color: var(--tertiary);
+      font-weight: 600;
     }
   }
 

@@ -35,9 +35,9 @@
   min-height: 1.2rem;
   flex: 0 1 auto;
 
-  // 非移动端：探索栏拉伸到底，与页脚底对齐（≥800px 平板/桌面）
+  // 非移动端：探索栏高度随内容变化，避免收起/展开后底部位置不更新
   @media all and (min-width: 800px) {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-height: 0;
   }
 
@@ -128,10 +128,11 @@ button.desktop-explorer {
   overscroll-behavior-y: auto;
   margin-top: 0.75rem;
 
-  // 非移动端：内容区占满剩余高度，与页脚底对齐时内部可滚动
+  // 非移动端：内容区按内容撑开；仅在超长时滚动
   @media all and (min-width: 800px) {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-height: 0;
+    max-height: 60vh;
   }
 
   & ul {

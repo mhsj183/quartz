@@ -6,46 +6,6 @@
   font-size: 1.18em;
   letter-spacing: 0.02em;
 
-  /* 目录切换按钮：与阅读时长同一行，图标与文字中线对齐 */
-  & .readermode.toc-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    vertical-align: middle;
-    margin-left: 1.5em;
-    width: 1.25em;
-    height: 1.25em;
-    line-height: 1;
-    transform: translateY(-0.08em);
-
-    & svg {
-      width: 1.05em;
-      height: 1.05em;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    /* 目录展开：绿色高亮；目录收起：与阅读时长同色 */
-    &:not(.toc-collapsed) svg {
-      fill: var(--tertiary);
-      stroke: var(--tertiary);
-    }
-    &.toc-collapsed svg {
-      fill: var(--gray);
-      stroke: var(--gray);
-    }
-
-    &:hover:not(.toc-toggle-disabled) svg {
-      fill: var(--tertiary);
-      stroke: var(--tertiary);
-    }
-
-    &.toc-toggle-disabled:hover svg {
-      fill: var(--gray);
-      stroke: var(--gray);
-    }
-  }
 }
 
 /* 列表等处的日期：与内容元日期同款字体，仅作用于日期部分 */

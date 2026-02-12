@@ -7,7 +7,8 @@ import { classNames } from "../util/lang"
 
 const ReaderMode: QuartzComponent = ({ displayClass, cfg, fileData }: QuartzComponentProps) => {
   const hasToc = !!(fileData?.toc && fileData.toc.length > 0)
-  const initialTocCollapsed = !!fileData?.collapseToc
+  // 默认大纲打开，由 readermode.inline 在 nav 时同步状态
+  const initialTocCollapsed = false
 
   return (
     <button

@@ -23,8 +23,6 @@ const ContentMetaWithGraphToggle: QuartzComponent = (props: QuartzComponentProps
   const displayedTime = `${Math.ceil(minutes)} min read`
   if (segments.length > 0) segments.push(", ")
   segments.push(<span>{displayedTime}</span>)
-  const hasToc = !!(fileData.toc && fileData.toc.length > 0)
-  if (hasToc) segments.push(<ReaderModeComponent {...props} />)
 
   return (
     <p class={classNames(displayClass, "content-meta")}>
