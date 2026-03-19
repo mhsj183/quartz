@@ -1,11 +1,11 @@
-import { concatenateResources } from "../util/resources"
-import { getDate, formatDateMMDDYYYY } from "./Date"
-import ReaderMode from "./ReaderMode"
+import { concatenateResources } from "../../util/resources"
+import { getDate, formatDateMMDDYYYY } from "../../components/Date"
+import ReaderMode from "../../components/ReaderMode"
 import readingTime from "reading-time"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { classNames } from "../util/lang"
+import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../../components/types"
+import { classNames } from "../../util/lang"
 import { JSX } from "preact"
-import contentMetaStyle from "./styles/contentMeta.scss"
+import contentMetaStyle from "../../components/styles/contentMeta.scss"
 
 const ReaderModeComponent = ReaderMode()
 

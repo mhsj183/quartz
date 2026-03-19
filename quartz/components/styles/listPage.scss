@@ -6,6 +6,31 @@
   font-weight: $semiBoldWeight;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  line-height: 1.25;
+}
+
+.center:has(.page-listing) .page-header .popover-hint h1 .article-title-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 20px;
+  color: currentColor;
+}
+
+.center:has(.page-listing) .page-header .popover-hint h1 .article-title-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+}
+
+.center:has(.page-listing) .page-header .popover-hint h1 .article-title-text {
+  display: inline-block;
 }
 
 .page-listing {

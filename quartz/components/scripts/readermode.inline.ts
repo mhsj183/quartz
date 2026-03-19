@@ -4,6 +4,8 @@ const IMAGE_PREVIEW_OVERLAY_ID = "image-preview-overlay"
 // 与 base.scss 中 $desktop 一致：低于此宽度时右侧目录区域被隐藏，点击按钮显示右侧浮层
 const TOC_VISIBLE_BREAKPOINT = 1200
 const FLOATING_TOC_SAFE_GAP = 30
+// 按钮高度（对应 readermode.scss 中的 2.75rem = 44px）
+const FLOATING_TOC_BTN_HEIGHT_PX = 44
 const FLOATING_TOC_BASE_BOTTOM_CSS_VAR = "--floating-toc-base-bottom"
 const FLOATING_TOC_BOTTOM_CSS_VAR = "--floating-toc-bottom"
 let removeOverlayOutsideCloseHandler: (() => void) | null = null
@@ -35,17 +37,26 @@ function resetFloatingTocBottomToBase() {
 function updateFloatingTocSafeInset() {
   const wrap = document.getElementById("floating-toc-wrap")
   if (!wrap) return
-  const hrBoundary = document.querySelector("#quartz-body > .center > hr") as HTMLElement | null
-  const footerBoundary = document.querySelector("#quartz-body > footer") as HTMLElement | null
-  const boundaryTop = Math.min(
-    hrBoundary?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY,
-    footerBoundary?.getBoundingClientRect().top ?? Number.POSITIVE_INFINITY,
-  )
+  // 优先以正文区域的分割线（.center 直接子元素 hr）为上升边界，
+  // 让按钮在分割线进入视口前就开始上移，保持在正文内部；
+  // 若无此元素则回退到站点 footer
+  const footerBoundary =
+    (document.querySelector(".center > hr") as HTMLElement | null) ??
+    (document.querySelector("#quartz-body > footer") as HTMLElement | null)
   const baseBottom = getFloatingTocBaseBottomPx()
-  const safeBottom =
-    Number.isFinite(boundaryTop) && boundaryTop < window.innerHeight
-      ? Math.max(baseBottom, window.innerHeight - boundaryTop + FLOATING_TOC_SAFE_GAP)
-      : baseBottom
+  // 只有当页面已完全滚动到底部（无法继续向下滚动）时，才将按钮推到分割线上方；
+  // 滚动过程中始终保持在右下角，避免中途跳位
+  const scrollRemaining =
+    document.documentElement.scrollHeight - window.innerHeight - window.scrollY
+  const isAtBottom = scrollRemaining <= 1
+  let safeBottom = baseBottom
+  if (isAtBottom && footerBoundary) {
+    const boundaryDistFromBottom =
+      window.innerHeight - footerBoundary.getBoundingClientRect().top
+    if (boundaryDistFromBottom > baseBottom + FLOATING_TOC_BTN_HEIGHT_PX) {
+      safeBottom = Math.max(baseBottom, boundaryDistFromBottom + FLOATING_TOC_SAFE_GAP)
+    }
+  }
   setFloatingTocBottomPx(safeBottom)
 }
 

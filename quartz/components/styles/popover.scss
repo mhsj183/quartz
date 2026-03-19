@@ -52,6 +52,98 @@
     white-space: normal;
     user-select: none;
     cursor: default;
+
+    /* 标签/文件夹页面标题图标大小约束（避免 SVG 无尺寸时撑大弹窗） */
+    .article-title-icon,
+    .article-title-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* 左侧探索目录触发的预览弹窗：中等紧凑排版 */
+  &[data-popover-source="explorer"] > .popover-inner {
+    padding: 0.5rem 1.05rem 1rem;
+    font-size: 0.94rem;
+    line-height: 1.45;
+
+    .popover-hint > * + * {
+      margin-top: 0.55rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.28;
+      margin-top: 0.8rem;
+      margin-bottom: 0.32rem;
+    }
+
+    h1 {
+      font-size: 1.28rem;
+    }
+
+    h2 {
+      font-size: 1.08rem;
+    }
+
+    h3 {
+      font-size: 0.98rem;
+    }
+
+    .article-title-icon,
+    .article-title-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    p,
+    li {
+      line-height: 1.45;
+    }
+
+    p {
+      margin: 0.3rem 0 0.72rem;
+    }
+
+    ul,
+    ol {
+      margin: 0.35rem 0 0.75rem;
+      padding-left: 1.1rem;
+    }
+
+    .content-meta,
+    .date-display {
+      font-size: 1.02em;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+    }
+
+    .content-meta {
+      margin: 0.12rem 0 0.48rem;
+    }
+
+    .ai-summary {
+      margin: 0.3rem 0 0.55rem;
+      font-size: 0.95em;
+      line-height: 1.45;
+      padding: 0.56rem 0.76rem 0.56rem 0.86rem;
+      border-radius: 0.52rem;
+      box-shadow:
+        0 5px 12px color-mix(in srgb, var(--tertiary) 10%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--tertiary) 12%, transparent) inset;
+      letter-spacing: 0.008em;
+
+      &::before {
+        width: 3px;
+        box-shadow: 0 0 8px color-mix(in srgb, var(--tertiary) 32%, transparent);
+      }
+
+      &::after {
+        opacity: 0.16;
+        animation-duration: 7.8s;
+      }
+    }
   }
 
   & > .popover-inner[data-content-type] {
@@ -88,6 +180,16 @@
 
   @media all and ($mobile) {
     display: none !important;
+  }
+}
+
+:root[saved-theme="dark"] .popover .popover-inner .ai-summary {
+  box-shadow:
+    0 6px 14px rgba(2, 6, 23, 0.38),
+    0 0 0 1px color-mix(in srgb, var(--tertiary) 18%, rgba(255, 255, 255, 0.04)) inset;
+
+  &::after {
+    opacity: 0.12;
   }
 }
 

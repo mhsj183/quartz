@@ -1,0 +1,65 @@
+/* 左侧探索栏底部与页脚底对齐：非移动端让 .explorer 占满侧栏剩余高度 */
+@media (min-width: 800px) {
+  .page > #quartz-body .sidebar.left {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden; /* 保证 flex 子项高度可计算 */
+  }
+  .page > #quartz-body .sidebar.left .explorer {
+    flex: 1 1 0%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .page > #quartz-body .sidebar.left .explorer .explorer-content {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow-y: auto;
+    /* 仅在有溢出时显示滚动条，overlay 时滚动条不占布局空间，避免默认占位 */
+    overflow-y: overlay;
+  }
+}
+
+/* 左侧栏：搜索+暗黑模式一行与探索目录同宽，两组件垂直居中 */
+.page > #quartz-body .sidebar.left .flex-component {
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+}
+.page > #quartz-body .sidebar.left .flex-component .search {
+  max-width: none;
+  min-width: 0;
+}
+
+@media (min-width: 800px) {
+  /* 强制覆盖 base 的 100vh，避免侧栏把首页 footer 顶出首屏 */
+  .page > #quartz-body .sidebar {
+    height: auto !important;
+    max-height: calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 2.5rem) !important;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .page > #quartz-body .sidebar.left .explorer,
+  .page > #quartz-body .sidebar.left .explorer .explorer-content,
+  .page > #quartz-body .sidebar.right {
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+/* 大纲隐藏时：缩小右侧栏、正文区域扩展以适应屏幕 */
+@media (min-width: 1200px) {
+  body.toc-panel-hidden .page > #quartz-body {
+    grid-template-columns: 320px 1fr 160px;
+  }
+}
+
+@media (min-width: 800px) {
+  /* 首页内容较少但目录较长时，额外收紧侧栏高度，确保 footer 首屏可见 */
+  body[data-slug="index"] .page > #quartz-body .sidebar {
+    max-height: max(16rem, calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 10rem)) !important;
+  }
+}

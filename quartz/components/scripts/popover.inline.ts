@@ -67,6 +67,9 @@ async function mouseEnterHandler(this: HTMLAnchorElement, e: MouseEvent) {
   const popoverElement = document.createElement("div")
   popoverElement.id = popoverId
   popoverElement.classList.add("popover")
+  if (isExplorerLink) {
+    popoverElement.dataset.popoverSource = "explorer"
+  }
   const popoverInner = document.createElement("div")
   popoverInner.classList.add("popover-inner")
   popoverInner.dataset.contentType = contentType ?? undefined

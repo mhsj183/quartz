@@ -1,0 +1,16 @@
+/* 非移动端正文略收窄，避免内容贴近右侧屏幕边缘 */
+@media (min-width: 800px) and (max-width: 1199px) {
+  .page > #quartz-body .center > article {
+    max-width: 44rem;
+    width: 100%;
+    margin-right: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .page > #quartz-body .center > article {
+    max-width: 52rem;
+    width: 100%;
+    margin-right: auto;
+  }
+}

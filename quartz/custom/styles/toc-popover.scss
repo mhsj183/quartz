@@ -1,0 +1,150 @@
+/* Notion 风格目录浮层（写在此处保证最后加载、覆盖 readermode/toc 样式） */
+#toc-overlay {
+  max-width: 90vw !important;
+}
+
+#toc-overlay .toc-overlay-panel {
+  width: auto;
+  min-width: 120px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  margin: 0;
+  padding: 1.5rem 1.5rem 2rem;
+  background: var(--light) !important;
+  border-radius: 16px !important;
+  box-shadow: -2px 0 16px rgba(0, 0, 0, 0.06), -1px 0 4px rgba(0, 0, 0, 0.03) !important;
+  -webkit-overflow-scrolling: touch;
+  font-family: inherit;
+  white-space: normal;
+  word-wrap: break-word;
+
+  .toc-overlay-clone,
+  .desktop-only.toc-overlay-clone {
+    .toc-header {
+      flex-shrink: 0;
+      margin-bottom: 0.75rem;
+      color: var(--dark) !important;
+      font-weight: 600;
+    }
+
+    .toc-content,
+    ul.toc-content.overflow {
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      max-height: none !important;
+      /* 文字区域上下留出安全边距，避免首尾条目贴近浮层边界 */
+      padding: 0.45rem 0 !important;
+      overflow-y: visible;
+      margin: 0.25rem 0 0 !important;
+      list-style: none;
+      padding-left: 0;
+    }
+
+    /* 浮层目录不使用底部渐变遮罩，避免最后一项被压暗 */
+    ul.toc-content.overflow.gradient-active {
+      mask-image: none !important;
+    }
+
+    /* 隐藏 overflow 观察用占位项，避免底部出现多余空白 */
+    ul.toc-content.overflow > li.overflow-end {
+      display: none;
+    }
+
+    ul.toc-content.overflow > li {
+      margin-bottom: 0.08rem;
+    }
+    ul.toc-content.overflow > li:last-child {
+      margin-bottom: 0;
+    }
+
+    ul.toc-content.overflow > li > a,
+    ul.toc-content > li > a {
+      display: block !important;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.4 !important;
+      padding: 0.12rem 0.6rem !important;
+      color: color-mix(in srgb, var(--darkgray) 42%, var(--gray) 58%) !important;
+      opacity: 1 !important;
+      transition: color 0.2s ease, opacity 0.2s ease, background-color 0.2s ease;
+      background: transparent !important;
+      text-decoration: none;
+      border-radius: 4px;
+      white-space: normal;
+      word-wrap: break-word;
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--tertiary) 16%, var(--light) 84%) !important;
+        color: var(--tertiary) !important;
+        opacity: 1 !important;
+      }
+      &.in-view {
+        color: var(--tertiary) !important;
+        opacity: 1 !important;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* 暗黑模式下与 readermode 保持一致：低对比深色卡片，不突兀但有边界 */
+:root[saved-theme="dark"] #toc-overlay .toc-overlay-panel {
+  background: color-mix(in srgb, var(--light) 94%, white 6%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.035) inset !important;
+}
+
+:root[saved-theme="dark"] #toc-overlay .toc-overlay-panel .toc-overlay-clone {
+  ul.toc-content.overflow > li > a,
+  ul.toc-content > li > a {
+    color: color-mix(in srgb, var(--dark) 36%, var(--gray) 64%) !important;
+    opacity: 0.9 !important;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--tertiary) 24%, transparent 76%) !important;
+      color: var(--tertiary) !important;
+      opacity: 1 !important;
+    }
+
+    &.in-view {
+      color: var(--tertiary) !important;
+      opacity: 1 !important;
+      font-weight: 600;
+    }
+  }
+}
+
+/* 目录浮动按钮与目录浮层：统一底部基准，保持两者原有相对间距 */
+:root {
+  /* 固定基准值：脚本只读取该值，避免读到运行时写回后的动态值 */
+  --floating-toc-base-bottom: 63px;
+  /* 运行时动态值：由脚本在滚动/切页时更新 */
+  --floating-toc-bottom: var(--floating-toc-base-bottom);
+  /* 目录浮层与按钮之间的垂直间距（更紧凑） */
+  --floating-toc-overlay-gap: 0.4rem;
+}
+
+#floating-toc-wrap {
+  bottom: var(--floating-toc-bottom) !important;
+}
+
+#toc-overlay {
+  /* 浮层紧贴按钮上方向上生长，不锁定 top（由 max-height 限制高度） */
+  top: auto !important;
+  /* 浮层底边 = 按钮底边 + 按钮高度 + 间距 */
+  bottom: calc(var(--floating-toc-bottom) + 2.75rem + var(--floating-toc-overlay-gap)) !important;
+  /* 最大高度 = 视口高度 - 底部偏移 - 顶部安全间距(1rem) */
+  max-height: calc(100vh - var(--floating-toc-bottom) - 2.75rem - var(--floating-toc-overlay-gap) - 1rem) !important;
+}
+
+#toc-overlay .toc-overlay-panel {
+  /* 跟随容器的 max-height，不超出可视范围 */
+  max-height: 100% !important;
+}

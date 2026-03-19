@@ -72,6 +72,12 @@ const config: QuartzConfig = {
       Plugin.TableOfContents({ maxDepth: 3 }),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
+      Plugin.ZhipuSummary({
+        enabled: process.env.ZHIPU_SUMMARY_ENABLED === "true",
+        apiKey: process.env.ZHIPU_API_KEY,
+        model: process.env.ZHIPU_MODEL ?? "glm-4v-flash",
+        maxSummaryChars: 50,
+      }),
       Plugin.Latex({ renderEngine: "katex" }),
     ],
     filters: [Plugin.RemoveDrafts()],
