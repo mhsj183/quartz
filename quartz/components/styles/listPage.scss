@@ -55,6 +55,15 @@
       color: var(--darkgray);
     }
   }
+
+  & > .folder-channel-illustration {
+    display: block;
+    width: min(9rem, 34vw);
+    max-width: 100%;
+    height: auto;
+    margin: -0.15rem auto 0.9rem auto;
+    mix-blend-mode: multiply;
+  }
 }
 
 ul.section-ul {

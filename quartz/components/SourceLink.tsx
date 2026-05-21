@@ -1,5 +1,5 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { formatDateMMDDCommaYYYY } from "./Date"
+import { formatDateMMDDCommaYYYY, getFrontmatterPublishedDate } from "./Date"
 import style from "./styles/source-link.scss"
 
 const externalIcon = (
@@ -15,16 +15,6 @@ const externalIcon = (
 
 const SOURCE_KEYS = ["sourceUrl", "源地址", "source", "source_url"]
 
-function getPublishedDate(fileData: QuartzComponentProps["fileData"]): Date | null {
-  const d = fileData.dates?.published
-  if (d instanceof Date && !Number.isNaN(d.getTime())) return d
-  const fm = (fileData.frontmatter ?? {}) as Record<string, unknown>
-  const raw = fm.published ?? fm["发布日期"]
-  if (typeof raw !== "string" || !raw.trim()) return null
-  const parsed = new Date(raw.trim())
-  return Number.isNaN(parsed.getTime()) ? null : parsed
-}
-
 const SourceLink: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const fm = (fileData.frontmatter ?? {}) as Record<string, unknown>
   let url: string | null = null
@@ -35,18 +25,20 @@ const SourceLink: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
       break
     }
   }
-  if (!url) {
+
+  const publishedDate = getFrontmatterPublishedDate(fm)
+  if (!url && !publishedDate) {
     return null
   }
 
-  const publishedDate = getPublishedDate(fileData)
-
   return (
     <div class="source-link">
-      <a href={url} target="_blank" rel="noopener noreferrer" class="external">
-        阅读原文
-        {externalIcon}
-      </a>
+      {url && (
+        <a href={url} target="_blank" rel="noopener noreferrer" class="external">
+          阅读原文
+          {externalIcon}
+        </a>
+      )}
       {publishedDate && (
         <span class="source-link__published">
           First published on {formatDateMMDDCommaYYYY(publishedDate)}

@@ -9,6 +9,35 @@ interface Props {
 
 export type ValidDateType = keyof Required<QuartzPluginData>["dates"]
 
+type FrontmatterDateValue = Date | number | string | null | undefined
+
+function coerceFrontmatterDate(value: FrontmatterDateValue): Date | undefined {
+  if (value == null) return undefined
+
+  const date =
+    value instanceof globalThis.Date
+      ? value
+      : typeof value === "number"
+        ? new globalThis.Date(value)
+        : typeof value === "string" && value.trim()
+          ? new globalThis.Date(value.trim())
+          : undefined
+
+  return date && !Number.isNaN(date.getTime()) ? date : undefined
+}
+
+export function getFrontmatterPublishedDate(
+  frontmatter: Record<string, unknown> | null | undefined,
+): Date | undefined {
+  if (!frontmatter) return undefined
+
+  return (
+    coerceFrontmatterDate(frontmatter["发布日期"] as FrontmatterDateValue) ??
+    coerceFrontmatterDate(frontmatter.published as FrontmatterDateValue) ??
+    coerceFrontmatterDate(frontmatter.publishDate as FrontmatterDateValue)
+  )
+}
+
 export function getDate(cfg: GlobalConfiguration, data: QuartzPluginData): Date | undefined {
   if (!cfg.defaultDateType) {
     throw new Error(

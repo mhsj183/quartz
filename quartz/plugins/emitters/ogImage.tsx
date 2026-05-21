@@ -12,6 +12,7 @@ import { BuildCtx } from "../../util/ctx"
 import { QuartzPluginData } from "../vfile"
 import fs from "node:fs/promises"
 import { styleText } from "util"
+import { absoluteUrl, siteOrigin } from "../../util/seo"
 
 const defaultOptions: SocialImageOptions = {
   colorScheme: "lightMode",
@@ -140,7 +141,7 @@ export const CustomOgImages: QuartzEmitterPlugin<Partial<SocialImageOptions>> = 
         return {}
       }
 
-      const baseUrl = ctx.cfg.configuration.baseUrl
+      const cfg = ctx.cfg.configuration
       return {
         additionalHead: [
           (pageData) => {
@@ -150,15 +151,15 @@ export const CustomOgImages: QuartzEmitterPlugin<Partial<SocialImageOptions>> = 
             if (userDefinedOgImagePath) {
               userDefinedOgImagePath = isAbsoluteURL(userDefinedOgImagePath)
                 ? userDefinedOgImagePath
-                : `https://${baseUrl}/static/${userDefinedOgImagePath}`
+                : `${siteOrigin(cfg)}/static/${encodeURI(userDefinedOgImagePath)}`
             }
 
             const generatedOgImagePath = isRealFile
-              ? `https://${baseUrl}/${pageData.slug!}-og-image.webp`
+              ? absoluteUrl(cfg, `${pageData.slug!}-og-image` as FullSlug) + ".webp"
               : undefined
-            const defaultOgImagePath = `https://${baseUrl}/static/og-image.png`
+            const defaultOgImagePath = `${siteOrigin(cfg)}/static/og-image.png`
             const ogImagePath = userDefinedOgImagePath ?? generatedOgImagePath ?? defaultOgImagePath
-            const ogImageMimeType = `image/${getFileExtension(ogImagePath) ?? "png"}`
+            const ogImageMimeType = `image/${(getFileExtension(ogImagePath) ?? "png").replace(/^\./, "")}`
             return (
               <>
                 {!userDefinedOgImagePath && (

@@ -23,6 +23,24 @@ const defaultOptions: FolderContentOptions = {
   showSubfolders: true,
 }
 
+function getChannelIllustration(slug?: string) {
+  if (slug === "reading-notes/index") {
+    return {
+      src: "/static/channel-icons/other-mountain-jade.png",
+      alt: "",
+    }
+  }
+
+  if (slug === "essays/index") {
+    return {
+      src: "/static/channel-icons/this-mountain-stone.png",
+      alt: "",
+    }
+  }
+
+  return undefined
+}
+
 export default ((opts?: Partial<FolderContentOptions>) => {
   const options: FolderContentOptions = { ...defaultOptions, ...opts }
 
@@ -94,6 +112,7 @@ export default ((opts?: Partial<FolderContentOptions>) => {
       sort: options.sort,
       allFiles: allPagesInFolder,
     }
+    const channelIllustration = getChannelIllustration(fileData.slug)
 
     const content = (
       (tree as Root).children.length === 0
@@ -109,6 +128,16 @@ export default ((opts?: Partial<FolderContentOptions>) => {
             <p class="folder-notes-count">
               <span class="date-display">{allPagesInFolder.length} notes</span>
             </p>
+          )}
+          {channelIllustration && (
+            <img
+              class="folder-channel-illustration"
+              src={channelIllustration.src}
+              alt={channelIllustration.alt}
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+            />
           )}
           <div>
             <PageList {...listProps} />

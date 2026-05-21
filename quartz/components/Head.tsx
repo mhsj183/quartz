@@ -5,6 +5,16 @@ import { googleFontHref, googleFontSubsetHref } from "../util/theme"
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { unescapeHTML } from "../util/escape"
 import { CustomOgImagesEmitterName } from "../plugins/emitters/ogImage"
+import {
+  absoluteUrl,
+  buildJsonLd,
+  extractArticleDates,
+  jsonLdScriptContent,
+  openGraphType,
+  shouldNoindexPage,
+  siteOrigin,
+} from "../util/seo"
+
 export default (() => {
   const Head: QuartzComponent = ({
     cfg,
@@ -13,8 +23,8 @@ export default (() => {
     ctx,
   }: QuartzComponentProps) => {
     const titleSuffix = cfg.pageTitleSuffix ?? ""
-    const title =
-      (fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title) + titleSuffix
+    const pageTitle = fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title
+    const title = pageTitle + titleSuffix
     const description =
       fileData.frontmatter?.socialDescription ??
       fileData.frontmatter?.description ??
@@ -22,19 +32,50 @@ export default (() => {
 
     const { css, js, additionalHead } = externalResources
 
-    const url = new URL(`https://${cfg.baseUrl ?? "example.com"}`)
+    const url = new URL(absoluteUrl(cfg, "index" as FullSlug))
     const path = url.pathname as FullSlug
     const baseDir = fileData.slug === "404" ? path : pathToRoot(fileData.slug!)
     const iconPath = joinSegments(baseDir, "static/icon.png")
 
     // Url of current page
     const socialUrl =
-      fileData.slug === "404" ? url.toString() : joinSegments(url.toString(), fileData.slug!)
+      fileData.slug === "404"
+        ? absoluteUrl(cfg, "404" as FullSlug)
+        : absoluteUrl(cfg, fileData.slug!)
+    const canonicalUrl = socialUrl
 
     const usesCustomOgImage = ctx.cfg.plugins.emitters.some(
       (e) => e.name === CustomOgImagesEmitterName,
     )
-    const ogImageDefaultPath = `https://${cfg.baseUrl}/static/og-image.png`
+    const ogImageDefaultPath = `${siteOrigin(cfg)}/static/og-image.png`
+
+    // Resolve the OG image URL so we can pass it to JSON-LD as well
+    const ogImageResolvedPath = usesCustomOgImage
+      ? absoluteUrl(cfg, `${fileData.slug!}-og-image` as FullSlug) + ".webp"
+      : ogImageDefaultPath
+
+    const jsonLd = buildJsonLd(
+      cfg,
+      fileData,
+      pageTitle,
+      description,
+      canonicalUrl,
+      ogImageResolvedPath,
+    )
+
+    // Article dates for OG article:* meta tags
+    const isArticle = openGraphType(fileData) === "article"
+    const { published, modified } = isArticle
+      ? extractArticleDates(fileData)
+      : { published: undefined, modified: undefined }
+    const tags: string[] = isArticle
+      ? Array.isArray(fileData.frontmatter?.tags)
+        ? fileData.frontmatter.tags
+        : []
+      : []
+
+    // Locale for og:locale (convert "zh-CN" → "zh_CN")
+    const ogLocale = (cfg.locale ?? "zh-CN").replace("-", "_")
 
     return (
       <head>
@@ -70,14 +111,29 @@ export default (() => {
         <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="og:site_name" content={cfg.pageTitle}></meta>
+        <link rel="canonical" href={canonicalUrl} />
+        {shouldNoindexPage(fileData) && <meta name="robots" content="noindex,follow" />}
+        <meta property="og:site_name" content={cfg.pageTitle}></meta>
         <meta property="og:title" content={title} />
-        <meta property="og:type" content="website" />
+        <meta property="og:type" content={openGraphType(fileData)} />
+        <meta property="og:locale" content={ogLocale} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta property="og:description" content={description} />
         <meta property="og:image:alt" content={description} />
+
+        {/* OG article meta – publication / modification dates, author, tags */}
+        {isArticle && published && (
+          <meta property="article:published_time" content={published.toISOString()} />
+        )}
+        {isArticle && modified && (
+          <meta property="article:modified_time" content={modified.toISOString()} />
+        )}
+        {isArticle && <meta property="article:author" content={`${siteOrigin(cfg)}/`} />}
+        {tags.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
 
         {!usesCustomOgImage && (
           <>
@@ -86,14 +142,14 @@ export default (() => {
             <meta name="twitter:image" content={ogImageDefaultPath} />
             <meta
               property="og:image:type"
-              content={`image/${getFileExtension(ogImageDefaultPath) ?? "png"}`}
+              content={`image/${(getFileExtension(ogImageDefaultPath) ?? "png").replace(/^\./, "")}`}
             />
           </>
         )}
 
         {cfg.baseUrl && (
           <>
-            <meta property="twitter:domain" content={cfg.baseUrl}></meta>
+            <meta property="twitter:domain" content={new URL(siteOrigin(cfg)).hostname}></meta>
             <meta property="og:url" content={socialUrl}></meta>
             <meta property="twitter:url" content={socialUrl}></meta>
           </>
@@ -102,6 +158,20 @@ export default (() => {
         <link rel="icon" href={iconPath} />
         <meta name="description" content={description} />
         <meta name="generator" content="Quartz" />
+        {jsonLd &&
+          (Array.isArray(jsonLd) ? (
+            jsonLd.map((item) => (
+              <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: jsonLdScriptContent(item) }}
+              />
+            ))
+          ) : (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: jsonLdScriptContent(jsonLd) }}
+            />
+          ))}
 
         {css.map((resource) => CSSResourceToStyleElement(resource, true))}
         {js

@@ -111,11 +111,31 @@ function createFileNode(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElemen
   const clone = template.content.cloneNode(true) as DocumentFragment
   const li = clone.querySelector("li") as HTMLLIElement
   const a = li.querySelector("a") as HTMLAnchorElement
+  const isCurrent = currentSlug === node.slug
   a.href = resolveRelative(currentSlug, node.slug)
   a.dataset.for = node.slug
-  a.textContent = node.displayName
+  a.classList.add("explorer-file-link")
 
-  if (currentSlug === node.slug) {
+  if (node.data?.recommended) {
+    a.classList.add("is-recommended")
+    const recommendedMarker = document.createElement("span")
+    recommendedMarker.className = "explorer-recommended-marker"
+    recommendedMarker.setAttribute("aria-hidden", "true")
+    const icon = document.createElement("img")
+    icon.src = "/static/images/recommend-star.png"
+    icon.alt = ""
+    icon.loading = "lazy"
+    recommendedMarker.appendChild(icon)
+    a.appendChild(recommendedMarker)
+  }
+
+  const title = document.createElement("span")
+  title.className = "explorer-file-title"
+  title.textContent = node.displayName
+
+  a.appendChild(title)
+
+  if (isCurrent) {
     a.classList.add("active")
   }
 

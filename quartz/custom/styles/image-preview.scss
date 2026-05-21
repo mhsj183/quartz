@@ -3,6 +3,23 @@
   cursor: zoom-in;
 }
 
+#quartz-body
+  .center
+  article.popover-hint
+  p:has(> img:first-child:last-child)
+  + p:has(> img:first-child:last-child) {
+  margin-top: 0.25rem;
+}
+
+#quartz-body
+  .center
+  article.popover-hint
+  p:has(> img:first-child:last-child)
+  + p:has(> img:first-child:last-child)
+  > img {
+  margin-top: 0;
+}
+
 #image-preview-overlay {
   position: fixed;
   inset: 0;

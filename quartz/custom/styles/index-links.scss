@@ -1,0 +1,20 @@
+body[data-slug="index"] .page > #quartz-body .center > article.popover-hint {
+  a.internal:not(.tag-link) {
+    background-color: transparent;
+    border-radius: 0;
+    line-height: inherit;
+    padding: 0;
+  }
+
+  & > p:first-of-type:has(> img:only-child) {
+    margin: -0.15rem auto 0.9rem auto;
+
+    img {
+      display: block;
+      width: min(9rem, 34vw);
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+  }
+}

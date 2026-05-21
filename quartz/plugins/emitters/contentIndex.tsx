@@ -7,6 +7,7 @@ import { QuartzEmitterPlugin } from "../types"
 import { toHtml } from "hast-util-to-html"
 import { write } from "./helpers"
 import { i18n } from "../../i18n"
+import { isSeoIndexableSlug } from "../../util/seo"
 
 export type ContentIndexMap = Map<FullSlug, ContentDetails>
 export type ContentDetails = {
@@ -16,6 +17,7 @@ export type ContentDetails = {
   links: SimpleSlug[]
   tags: string[]
   content: string
+  recommended?: boolean
   richContent?: string
   date?: Date
   description?: string
@@ -102,6 +104,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
+        const recommended = file.data.frontmatter?.推荐
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {
             slug,
@@ -110,6 +113,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
             links: file.data.links ?? [],
             tags: file.data.frontmatter?.tags ?? [],
             content: file.data.text ?? "",
+            recommended: recommended === true || recommended === "true" || recommended === "是",
             richContent: opts?.rssFullHtml
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
@@ -120,18 +124,20 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       }
 
       if (opts?.enableSiteMap) {
+        const seoIndex = new Map(Array.from(linkIndex).filter(([slug]) => isSeoIndexableSlug(slug)))
         yield write({
           ctx,
-          content: generateSiteMap(cfg, linkIndex),
+          content: generateSiteMap(cfg, seoIndex),
           slug: "sitemap" as FullSlug,
           ext: ".xml",
         })
       }
 
       if (opts?.enableRSS) {
+        const seoIndex = new Map(Array.from(linkIndex).filter(([slug]) => isSeoIndexableSlug(slug)))
         yield write({
           ctx,
-          content: generateRSSFeed(cfg, linkIndex, opts.rssLimit),
+          content: generateRSSFeed(cfg, seoIndex, opts.rssLimit),
           slug: (opts?.rssSlug ?? "index") as FullSlug,
           ext: ".xml",
         })
