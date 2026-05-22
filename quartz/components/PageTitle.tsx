@@ -17,11 +17,16 @@ const PageTitle: QuartzComponent = (props: QuartzComponentProps) => {
 const pageTitleCss = `
 .page-title {
   font-size: 1.75rem;
+  font-weight: 700;
   margin: 0;
   font-family: var(--titleFont);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.page-title > a {
+  font-weight: 700;
 }
 `
 PageTitle.css = pageTitleCss
