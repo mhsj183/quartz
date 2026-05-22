@@ -1,0 +1,15 @@
+.reading-uv {
+  color: var(--gray);
+  font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
+  font-size: 1.12rem;
+  line-height: 1.4;
+  margin: 0.75rem 0 0;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.reading-uv__label {
+  margin-right: 0.35rem;
+}

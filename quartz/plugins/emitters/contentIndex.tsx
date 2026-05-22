@@ -1,6 +1,6 @@
 import { Root } from "hast"
 import { GlobalConfiguration } from "../../cfg"
-import { getDate } from "../../components/Date"
+import { getDate, getFrontmatterPublishedDate } from "../../components/Date"
 import { escapeHTML } from "../../util/escape"
 import { FilePath, FullSlug, SimpleSlug, joinSegments, simplifySlug } from "../../util/path"
 import { QuartzEmitterPlugin } from "../types"
@@ -20,6 +20,7 @@ export type ContentDetails = {
   recommended?: boolean
   richContent?: string
   date?: Date
+  publishedDate?: string
   description?: string
 }
 
@@ -104,6 +105,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
       for (const [tree, file] of content) {
         const slug = file.data.slug!
         const date = getDate(ctx.cfg.configuration, file.data) ?? new Date()
+        const publishedDate = getFrontmatterPublishedDate(file.data.frontmatter)?.toISOString()
         const recommended = file.data.frontmatter?.推荐
         if (opts?.includeEmptyFiles || (file.data.text && file.data.text !== "")) {
           linkIndex.set(slug, {
@@ -118,6 +120,7 @@ export const ContentIndex: QuartzEmitterPlugin<Partial<Options>> = (opts) => {
               ? escapeHTML(toHtml(tree as Root, { allowDangerousHtml: true }))
               : undefined,
             date: date,
+            publishedDate,
             description: file.data.description ?? "",
           })
         }

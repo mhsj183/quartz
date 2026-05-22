@@ -8,9 +8,17 @@
 }
 
 @media (min-width: 1200px) {
-  .page > #quartz-body .center > article {
+  .page > #quartz-body .center > article,
+  .page > #quartz-body .center > .popover-hint:has(.page-listing) {
     max-width: 52rem;
     width: 100%;
     margin-right: auto;
+  }
+
+  body.right-sidebar-collapsed .page > #quartz-body .center > article,
+  body.right-sidebar-collapsed .page > #quartz-body .center > .popover-hint:has(.page-listing),
+  body[data-has-toc="false"] .page > #quartz-body .center > article,
+  body[data-has-toc="false"] .page > #quartz-body .center > .popover-hint:has(.page-listing) {
+    max-width: 58rem;
   }
 }

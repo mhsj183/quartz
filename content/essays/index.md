@@ -5,4 +5,4 @@ aliases:
   - 此山之石/index
 ---
 
-原创内容，记录我对 AI 产品、Agentic-first 和产品实践的长期思考。
+> 记录个人对 AI 产品、Agentic-first 和AI Coding 实践的长期思考。

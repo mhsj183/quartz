@@ -15,11 +15,28 @@ export const sharedPageComponents: SharedLayout = {
       },
     }),
   ],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.ReadingUV(),
+      condition: (page) => {
+        const slug = page.fileData?.slug ?? ""
+        if (
+          slug === "index" ||
+          slug === "404" ||
+          slug.endsWith("/index") ||
+          slug.startsWith("tags/")
+        ) {
+          return false
+        }
+        return true
+      },
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/mhsj183",
       WeChat: "#wechat",
+      Email: "mailto:fyajiao@gmail.com",
     },
   }),
 }

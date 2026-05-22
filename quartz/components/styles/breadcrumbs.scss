@@ -32,7 +32,7 @@
   // 当前路径：高亮显示
   &.breadcrumb-current a {
     color: var(--tertiary);
-    font-weight: var(--semiBoldWeight, 600);
+    font-weight: var(--normalWeight, 400);
     pointer-events: none; // 当前页无需点击
     cursor: default;
   }

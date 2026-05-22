@@ -8,41 +8,28 @@
   flex: 0 0.5 auto;
   margin-bottom: 20px; /* 目录大纲区域离浏览器底部保留 20px */
 
-  /* 书籍图标按钮控制：隐藏整个大纲组件 */
-  &.toc-hidden {
-    display: none !important;
-  }
-
-  > .toc-header {
-    display: none;
+  & > .toc-header {
+    display: flex;
+    margin-bottom: 0.5rem;
   }
 }
 
-button.toc-header {
-  background-color: transparent;
-  border: none;
+.toc-header {
   text-align: left;
-  cursor: pointer;
   padding: 0;
   color: var(--dark);
   display: flex;
   align-items: center;
 
   & h3 {
-    font-size: 1rem;
+    font-size: 0.95rem;
     display: inline-block;
     margin: 0;
   }
+}
 
-  & .fold {
-    margin-left: 0.5rem;
-    transition: transform 0.3s ease;
-    opacity: 0.8;
-  }
-
-  &.collapsed .fold {
-    transform: rotateZ(-90deg);
-  }
+ul.toc-content.collapsed {
+  display: none;
 }
 
 ul.toc-content.overflow {
@@ -50,14 +37,14 @@ ul.toc-content.overflow {
   position: relative;
   margin: 0;
   padding: 0 0 300px 0; /* 底部留白，最后一项可完整滚入可见区域 */
-  max-height: calc(100% - 300px); /* 去掉标题行后不再预留标题高度 */
+  max-height: calc(100% - 2rem - 300px); /* 预留标题行高度 */
   overscroll-behavior: contain;
   list-style: none;
   flex: 1 1 auto;
   min-height: 0;
 
   & > li {
-    margin-bottom: 0.32rem;
+    margin-bottom: 0.2rem;
   }
 
   & > li:last-child {
@@ -66,7 +53,8 @@ ul.toc-content.overflow {
 
   & > li > a {
     display: block;
-    line-height: 1.3;
+    font-size: 0.92rem;
+    line-height: 1.22;
     font-weight: 350;
     color: color-mix(in srgb, var(--darkgray) 42%, var(--gray) 58%);
     opacity: 1;
@@ -75,7 +63,7 @@ ul.toc-content.overflow {
       0.2s ease background-color;
     /* 默认深灰；悬停浅绿底 */
     background-color: transparent;
-    padding: 0.08rem 0.5rem;
+    padding: 0.05rem 0.45rem;
     border-radius: 4px;
     text-decoration: none;
 
@@ -86,7 +74,7 @@ ul.toc-content.overflow {
 
     &.in-view {
       color: var(--tertiary);
-      font-weight: 600;
+      font-weight: 350;
     }
   }
 

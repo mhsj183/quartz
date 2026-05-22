@@ -1,0 +1,15 @@
+name = "mhsj-read-uv"
+main = "src/index.ts"
+compatibility_date = "2026-05-22"
+
+routes = [
+  { pattern = "mhsj.me/api/views*", zone_name = "mhsj.me" }
+]
+
+[[d1_databases]]
+binding = "READ_UV_DB"
+database_name = "read_uv"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[vars]
+ALLOWED_HOST = "mhsj.me"

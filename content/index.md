@@ -1,10 +1,8 @@
 ---
-title: "AI 产品设计与 Agent-First 实践观察 | mhsj.me"
-description: "关于垂直 AI 产品设计、Agent-First 方法论和 AI Coding 实验的长期观察站，沉淀原创产品思考与实践复盘，而不是短期热点。"
-socialDescription: "一个关于 AI 产品、Agent-First 和个人产品实验的长期观察站，重点记录原创判断、产品设计思考和实践复盘。"
+title: AI 时代，保持在场 | mhsj.me
+description: 关于垂直 AI 产品设计、Agent-First 方法论和 AI Coding 实验的长期观察站，沉淀原创产品思考与实践复盘，而不是短期热点。
+socialDescription: 一个关于 AI 产品、Agent-First 和个人产品实验的长期观察站，重点记录原创判断、产品设计思考和实践复盘。
 ---
-
-![玉石手杖](/static/channel-icons/jade-staff.png)
 
 你好，我是 mhsj，一名互联网 ToB 产品经理，常年深耕于办公协作工具领域。
 

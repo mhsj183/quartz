@@ -13,12 +13,23 @@
     flex-direction: column;
     overflow: hidden;
   }
+  .page > #quartz-body .sidebar.left .explorer.collapsed {
+    flex: 0 0 auto;
+  }
   .page > #quartz-body .sidebar.left .explorer .explorer-content {
     flex: 1 1 0%;
     min-height: 0;
     overflow-y: auto;
     /* 仅在有溢出时显示滚动条，overlay 时滚动条不占布局空间，避免默认占位 */
     overflow-y: overlay;
+  }
+  .page > #quartz-body .sidebar.left .explorer.collapsed .explorer-content {
+    flex: 0 0 0;
+    min-height: 0;
+    max-height: 0;
+    margin-top: 0;
+    visibility: hidden;
+    overflow: hidden;
   }
 }
 
@@ -37,7 +48,9 @@
   /* 强制覆盖 base 的 100vh，避免侧栏把首页 footer 顶出首屏 */
   .page > #quartz-body .sidebar {
     height: auto !important;
-    max-height: calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 2.5rem) !important;
+    max-height: calc(
+      100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 2.5rem
+    ) !important;
     min-height: 0;
     overflow: hidden;
   }
@@ -50,16 +63,26 @@
   }
 }
 
-/* 大纲隐藏时：缩小右侧栏、正文区域扩展以适应屏幕 */
+/* 右边栏收起时：隐藏右侧内容、正文区域扩展以适应屏幕 */
 @media (min-width: 1200px) {
-  body.toc-panel-hidden .page > #quartz-body {
+  body.right-sidebar-collapsed .page > #quartz-body,
+  body[data-has-toc="false"] .page > #quartz-body {
     grid-template-columns: 320px 1fr 160px;
+  }
+
+  body.right-sidebar-collapsed .page > #quartz-body .sidebar.right {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 }
 
 @media (min-width: 800px) {
   /* 首页内容较少但目录较长时，额外收紧侧栏高度，确保 footer 首屏可见 */
   body[data-slug="index"] .page > #quartz-body .sidebar {
-    max-height: max(16rem, calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 10rem)) !important;
+    max-height: max(
+      16rem,
+      calc(100vh - var(--cover-height, 0px) - var(--cover-margin, 0px) - 10rem)
+    ) !important;
   }
 }

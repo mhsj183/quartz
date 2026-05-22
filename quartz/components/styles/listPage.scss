@@ -62,7 +62,6 @@
     max-width: 100%;
     height: auto;
     margin: -0.15rem auto 0.9rem auto;
-    mix-blend-mode: multiply;
   }
 }
 
@@ -88,7 +87,7 @@ li.section-li {
     & > .desc > h3 > a {
       background-color: transparent;
       font-size: 1rem;
-      font-weight: 500;
+      font-weight: $normalWeight;
       line-height: 1.5;
     }
 

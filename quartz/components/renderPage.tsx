@@ -263,10 +263,11 @@ export function renderPage(
   const direction = i18n(cfg.locale).direction ?? "ltr"
   const baseDir = pathToRoot((componentData.fileData.slug ?? "index") as FullSlug)
   const coverImageSrc = joinSegments(baseDir, "static/images/site-cover.png")
+  const hasToc = !!(componentData.fileData.toc && componentData.fileData.toc.length > 0)
   const doc = (
     <html lang={lang} dir={direction}>
       <Head {...componentData} />
-      <body data-slug={slug}>
+      <body data-slug={slug} data-has-toc={hasToc ? "true" : "false"}>
         {/* 封面图常驻显示于所有页面（含主页 index） */}
         <div class="site-cover-wrapper">
           <div

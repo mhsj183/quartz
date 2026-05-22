@@ -249,7 +249,7 @@ button.desktop-explorer {
     color: var(--secondary);
     font-family: var(--headerFont);
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: $normalWeight;
     line-height: 1.45;
     display: block;
   }

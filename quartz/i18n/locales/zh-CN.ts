@@ -54,7 +54,7 @@ export default {
       searchBarPlaceholder: "搜索些什么",
     },
     tableOfContents: {
-      title: "大纲",
+      title: "目录",
       noToc: "暂无目录",
     },
     contentMeta: {

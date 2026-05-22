@@ -1,21 +1,28 @@
 import { FullSlug, isFolderPath, resolveRelative } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
-import { Date, getDate } from "./Date"
+import { Date, getDate, getFrontmatterPublishedDate } from "./Date"
 import { QuartzComponent, QuartzComponentProps } from "./types"
 import { GlobalConfiguration } from "../cfg"
 
 export type SortFn = (f1: QuartzPluginData, f2: QuartzPluginData) => number
 
-export function byDateAndAlphabetical(cfg: GlobalConfiguration): SortFn {
+function getPageListSortDate(data: QuartzPluginData): Date | undefined {
+  return getFrontmatterPublishedDate(data.frontmatter)
+}
+
+export function byDateAndAlphabetical(_cfg: GlobalConfiguration): SortFn {
   return (f1, f2) => {
+    const f1Date = getPageListSortDate(f1)
+    const f2Date = getPageListSortDate(f2)
+
     // Sort by date/alphabetical
-    if (f1.dates && f2.dates) {
+    if (f1Date && f2Date) {
       // sort descending
-      return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
-    } else if (f1.dates && !f2.dates) {
+      return f2Date.getTime() - f1Date.getTime()
+    } else if (f1Date && !f2Date) {
       // prioritize files with dates
       return -1
-    } else if (!f1.dates && f2.dates) {
+    } else if (!f1Date && f2Date) {
       return 1
     }
 
@@ -26,7 +33,7 @@ export function byDateAndAlphabetical(cfg: GlobalConfiguration): SortFn {
   }
 }
 
-export function byDateAndAlphabeticalFolderFirst(cfg: GlobalConfiguration): SortFn {
+export function byDateAndAlphabeticalFolderFirst(_cfg: GlobalConfiguration): SortFn {
   return (f1, f2) => {
     // Sort folders first
     const f1IsFolder = isFolderPath(f1.slug ?? "")
@@ -34,14 +41,17 @@ export function byDateAndAlphabeticalFolderFirst(cfg: GlobalConfiguration): Sort
     if (f1IsFolder && !f2IsFolder) return -1
     if (!f1IsFolder && f2IsFolder) return 1
 
+    const f1Date = getPageListSortDate(f1)
+    const f2Date = getPageListSortDate(f2)
+
     // If both are folders or both are files, sort by date/alphabetical
-    if (f1.dates && f2.dates) {
+    if (f1Date && f2Date) {
       // sort descending
-      return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
-    } else if (f1.dates && !f2.dates) {
+      return f2Date.getTime() - f1Date.getTime()
+    } else if (f1Date && !f2Date) {
       // prioritize files with dates
       return -1
-    } else if (!f1.dates && f2.dates) {
+    } else if (!f1Date && f2Date) {
       return 1
     }
 
@@ -107,7 +117,7 @@ PageList.css = `
 .section h3 {
   margin: 0;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.5;
 }
 

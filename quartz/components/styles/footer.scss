@@ -18,6 +18,21 @@ footer {
     margin-top: -1rem;
   }
 
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    color: var(--secondary);
+    line-height: 1.2;
+  }
+
+  .footer-link-icon {
+    width: 1em;
+    height: 1em;
+    color: currentColor;
+    flex: 0 0 auto;
+  }
+
   .wechat-link-wrapper {
     position: relative;
 
