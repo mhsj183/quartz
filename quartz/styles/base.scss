@@ -519,12 +519,17 @@ p {
   line-height: 1.6rem;
 }
 
-// 正文段落间距：明显大于行高，区分段落与段内行距
+// 正文段落间距：保留段落节奏，但避免额外空行在页面上被放大
 .page article p {
   margin-bottom: 0;
 }
 .page article p + p {
-  margin-top: 1.75rem;
+  margin-top: 0.55rem;
+}
+.page article p:empty,
+.page article p:has(> br:only-child) {
+  display: none;
+  margin: 0;
 }
 
 .table-container {

@@ -1,8 +1,8 @@
 @use "../../styles/variables.scss" as *;
 
 .source-link {
-  // 与正文段落的节奏对齐（p + p 的间距为 1.75rem）
-  margin-top: 1.75rem;
+  // 与正文段落的节奏对齐
+  margin-top: 0.55rem;
   text-align: left;
   display: flex;
   flex-direction: row;
