@@ -1,3 +1,5 @@
+import { getLocalReadingUVCount, isLocalReadingUVHost } from "../ReadingUVLocal"
+
 const VISITOR_ID_KEY = "mhsj-reading-uv-visitor-id"
 const API_PATH = "/api/views"
 
@@ -70,6 +72,13 @@ async function updateReadingUV() {
 
   setCounterText("...")
 
+  if (isLocalReadingUVHost(location.hostname)) {
+    const count = getLocalReadingUVCount()
+    setCounterText(String(count))
+    setCounterLabel(count)
+    return
+  }
+
   try {
     const response = await fetch(API_PATH, {
       method: "POST",
@@ -100,4 +109,6 @@ async function updateReadingUV() {
   }
 }
 
-document.addEventListener("nav", updateReadingUV)
+if (typeof document !== "undefined") {
+  document.addEventListener("nav", updateReadingUV)
+}
