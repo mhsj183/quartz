@@ -47,6 +47,13 @@ function setCounterText(text: string) {
   }
 }
 
+function setCounterLabel(count: number) {
+  const label = document.querySelector("[data-reading-uv-label]") as HTMLElement | null
+  if (label) {
+    label.textContent = count === 1 ? "Read" : "Reads"
+  }
+}
+
 function hideCounter() {
   const counter = document.querySelector("[data-reading-uv]") as HTMLElement | null
   if (counter) {
@@ -87,6 +94,7 @@ async function updateReadingUV() {
     }
 
     setCounterText(String(payload.uv))
+    setCounterLabel(payload.uv)
   } catch {
     hideCounter()
   }

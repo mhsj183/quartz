@@ -14,8 +14,6 @@ export const sharedPageComponents: SharedLayout = {
         return true
       },
     }),
-  ],
-  afterBody: [
     Component.ConditionalRender({
       component: Component.ReadingUV(),
       condition: (page) => {
@@ -32,6 +30,7 @@ export const sharedPageComponents: SharedLayout = {
       },
     }),
   ],
+  afterBody: [],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/mhsj183",

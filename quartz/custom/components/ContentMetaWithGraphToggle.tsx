@@ -1,8 +1,12 @@
 import { concatenateResources } from "../../util/resources"
-import { getDate, formatDateMMDDYYYY } from "../../components/Date"
+import { getArticleMetaDate, formatDateMMDDYYYY } from "../../components/Date"
 import ReaderMode from "../../components/ReaderMode"
 import readingTime from "reading-time"
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../../components/types"
+import {
+  QuartzComponent,
+  QuartzComponentConstructor,
+  QuartzComponentProps,
+} from "../../components/types"
 import { classNames } from "../../util/lang"
 import { JSX } from "preact"
 import contentMetaStyle from "../../components/styles/contentMeta.scss"
@@ -15,7 +19,7 @@ const ContentMetaWithGraphToggle: QuartzComponent = (props: QuartzComponentProps
   if (!text) return null
 
   const segments: (string | JSX.Element)[] = []
-  const date = fileData.dates ? getDate(cfg, fileData) : undefined
+  const date = getArticleMetaDate(cfg, fileData)
   if (date) {
     segments.push(<time datetime={date.toISOString()}>{formatDateMMDDYYYY(date)}</time>)
   }
@@ -24,11 +28,7 @@ const ContentMetaWithGraphToggle: QuartzComponent = (props: QuartzComponentProps
   if (segments.length > 0) segments.push(", ")
   segments.push(<span>{displayedTime}</span>)
 
-  return (
-    <p class={classNames(displayClass, "content-meta")}>
-      {segments}
-    </p>
-  )
+  return <p class={classNames(displayClass, "content-meta")}>{segments}</p>
 }
 
 ContentMetaWithGraphToggle.css = concatenateResources(contentMetaStyle, ReaderModeComponent.css)

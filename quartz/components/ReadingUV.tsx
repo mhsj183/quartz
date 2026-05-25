@@ -12,9 +12,11 @@ const ReadingUV: QuartzComponent = ({ displayClass, fileData }: QuartzComponentP
 
   return (
     <div class={classNames(displayClass, "reading-uv")} data-reading-uv>
-      <span class="reading-uv__label">Views</span>
       <span class="reading-uv__value" data-reading-uv-value>
         ...
+      </span>
+      <span class="reading-uv__label" data-reading-uv-label>
+        Reads
       </span>
     </div>
   )

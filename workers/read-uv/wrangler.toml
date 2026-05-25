@@ -9,7 +9,7 @@ routes = [
 [[d1_databases]]
 binding = "READ_UV_DB"
 database_name = "read_uv"
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "8e2644c5-cc67-47da-af7d-c464a529b6fe"
 
 [vars]
 ALLOWED_HOST = "mhsj.me"

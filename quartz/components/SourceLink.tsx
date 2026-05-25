@@ -1,5 +1,4 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { formatDateMMDDCommaYYYY, getFrontmatterPublishedDate } from "./Date"
 import style from "./styles/source-link.scss"
 
 const externalIcon = (
@@ -26,24 +25,16 @@ const SourceLink: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
     }
   }
 
-  const publishedDate = getFrontmatterPublishedDate(fm)
-  if (!url && !publishedDate) {
+  if (!url) {
     return null
   }
 
   return (
     <div class="source-link">
-      {url && (
-        <a href={url} target="_blank" rel="noopener noreferrer" class="external">
-          阅读原文
-          {externalIcon}
-        </a>
-      )}
-      {publishedDate && (
-        <span class="source-link__published">
-          First published on {formatDateMMDDCommaYYYY(publishedDate)}
-        </span>
-      )}
+      <a href={url} target="_blank" rel="noopener noreferrer" class="external">
+        阅读原文
+        {externalIcon}
+      </a>
     </div>
   )
 }

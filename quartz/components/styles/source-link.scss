@@ -19,16 +19,6 @@
     // 与侧栏 active 链接一致的浅色系
     color: var(--tertiary);
   }
-
-  // 与标题下方提交、阅读时长样式一致（content-meta）
-  &__published {
-    margin-top: 0;
-    color: var(--gray);
-    font-family: "Caveat", "Segoe Script", "Brush Script MT", cursive;
-    font-weight: 300;
-    font-size: 1.18em;
-    letter-spacing: 0.02em;
-  }
 }
 
 // SourceLink 紧挨着全局 <hr /> 时，避免叠加出过大的留白

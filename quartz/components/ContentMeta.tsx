@@ -1,4 +1,4 @@
-import { getDate, formatDateMMDDYYYY } from "./Date"
+import { getArticleMetaDate, formatDateMMDDYYYY } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import readingTime from "reading-time"
 import { classNames } from "../util/lang"
@@ -23,12 +23,10 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
 
     if (text) {
       const segments: (string | JSX.Element)[] = []
-      const date = fileData.dates ? getDate(cfg, fileData) : undefined
+      const date = getArticleMetaDate(cfg, fileData)
 
       if (date) {
-        segments.push(
-          <time datetime={date.toISOString()}>{formatDateMMDDYYYY(date)}</time>,
-        )
+        segments.push(<time datetime={date.toISOString()}>{formatDateMMDDYYYY(date)}</time>)
       }
 
       if (options.showReadingTime) {
@@ -38,9 +36,7 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
         segments.push(<span>{displayedTime}</span>)
       }
 
-      return (
-        <p class={classNames(displayClass, "content-meta")}>{segments}</p>
-      )
+      return <p class={classNames(displayClass, "content-meta")}>{segments}</p>
     } else {
       return null
     }
