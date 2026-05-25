@@ -1,4 +1,4 @@
-import { getArticleMetaDate, formatDateMMDDYYYY } from "./Date"
+import { getArticleMetaDate, formatDateMonthDayYear } from "./Date"
 import { QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import readingTime from "reading-time"
 import { classNames } from "../util/lang"
@@ -26,13 +26,15 @@ export default ((opts?: Partial<ContentMetaOptions>) => {
       const date = getArticleMetaDate(cfg, fileData)
 
       if (date) {
-        segments.push(<time datetime={date.toISOString()}>{formatDateMMDDYYYY(date)}</time>)
+        segments.push(
+          <time datetime={date.toISOString()}>Posted {formatDateMonthDayYear(date)}</time>,
+        )
       }
 
       if (options.showReadingTime) {
         const { minutes } = readingTime(text)
         const displayedTime = `${Math.ceil(minutes)} min read`
-        if (segments.length > 0) segments.push(", ")
+        if (segments.length > 0) segments.push(" · ")
         segments.push(<span>{displayedTime}</span>)
       }
 

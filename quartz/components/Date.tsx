@@ -62,7 +62,16 @@ export function formatDate(d: Date, locale: ValidLocale = "en-US"): string {
   })
 }
 
-/** 英文格式日期：mm.dd.yyyy，与 ContentMeta 等统一 */
+/** 英文格式日期：May 13, 2026，与 ContentMeta 等统一 */
+export function formatDateMonthDayYear(d: Date): string {
+  return d.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  })
+}
+
+/** 英文格式日期：mm.dd.yyyy */
 export function formatDateMMDDYYYY(d: Date): string {
   const mm = String(d.getMonth() + 1).padStart(2, "0")
   const dd = String(d.getDate()).padStart(2, "0")
@@ -81,7 +90,7 @@ export function formatDateMMDDCommaYYYY(d: Date): string {
 export function Date({ date, locale: _locale }: Props) {
   return (
     <time class="date-display" datetime={date.toISOString()}>
-      {formatDateMMDDYYYY(date)}
+      {formatDateMonthDayYear(date)}
     </time>
   )
 }
