@@ -1,5 +1,6 @@
 import test, { describe } from "node:test"
 import assert from "node:assert"
+import { readFileSync } from "node:fs"
 import { sortExplorerNodes } from "./ExplorerSort"
 import { FileTrieNode } from "../util/fileTrie"
 
@@ -41,5 +42,15 @@ describe("Explorer default sort", () => {
 
     assert.ok(sortExplorerNodes(folder, file) < 0)
     assert.ok(sortExplorerNodes(file, folder) > 0)
+  })
+})
+
+describe("Explorer layout defaults", () => {
+  test("opens all folders on page load instead of restoring collapsed state", () => {
+    const layout = readFileSync("quartz.layout.ts", "utf8")
+    const openWithoutSavedState =
+      /Component\.Explorer\(\{\s*folderDefaultState:\s*"open",\s*useSavedState:\s*false,?\s*\}\)/g
+
+    assert.strictEqual([...layout.matchAll(openWithoutSavedState)].length, 2)
   })
 })

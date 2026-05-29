@@ -61,7 +61,7 @@ export const defaultContentPageLayout: PageLayout = {
       ],
       gap: "0.85rem",
     }),
-    Component.Explorer({ folderDefaultState: "open" }),
+    Component.Explorer({ folderDefaultState: "open", useSavedState: false }),
   ],
   right: [
     Component.Graph(),
@@ -83,7 +83,7 @@ export const defaultListPageLayout: PageLayout = {
       ],
       gap: "0.85rem",
     }),
-    Component.Explorer({ folderDefaultState: "open" }),
+    Component.Explorer({ folderDefaultState: "open", useSavedState: false }),
   ],
   right: [],
 }
