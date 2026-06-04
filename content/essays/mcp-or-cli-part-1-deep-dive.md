@@ -348,7 +348,7 @@ _Token 消耗：看变量，不看名号_
 
 最关键的一点：**没有哪个维度是 MCP 或 CLI 绝对胜出的，每个结论都带着前提条件**—— Skill 完善程度、Tool 数量多少、Agent 对工具是否熟悉、用户调用环境、产品在业务中处于什么位置。
 
-深挖这两个概念的本质差异，是为了让我们不被名词绕晕。现在，你不该得到一个固定答案，而一组判断变量。下一篇我们这些变量放进具体 SaaS 场景：开发者工具、协作文档、CRM / 审批 / HR 这类业务 SaaS，具体看看怎么做。
+深挖这两个概念的本质差异，是为了让我们不被名词绕晕。现在，你不该得到一个固定答案，而一组判断变量。[[essays/mcp-or-cli-part-2-selection-guide|下一篇]]我们这些变量放进具体 SaaS 场景：开发者工具、协作文档、CRM / 审批 / HR 这类业务 SaaS，具体看看怎么做。
 
 [^1]: Anthropic: _Introducing the Model Context Protocol_. https://www.anthropic.com/news/model-context-protocol
 

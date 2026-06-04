@@ -19,4 +19,9 @@ socialDescription: 一个关于 AI 产品、Agent-First 和个人产品实验的
 - [[essays/agentic-asset-loop-principles-part-1|Agentic Asset Loop 的 5 条设计原则（上）]]
 - [[essays/agentic-asset-loop-principles-part-2|Agentic Asset Loop 的 5 条设计原则（下）]]
 
+## 关于“MCP or CLI”
+
+- [[essays/mcp-or-cli-part-1-deep-dive|MCP or CLI（上）：深度解析]]
+- [[essays/mcp-or-cli-part-2-selection-guide|MCP or CLI（中）：选型指南]]
+
 如果你也在思考 AI 时代的产品范式转移，非常欢迎联系我，进一步深入交流～
